@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "148803982038",
+    "project_id": "budgeting-essentials",
+    "storage_bucket": "budgeting-essentials.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148803982038:android:966f59cf30a3ba2e5c6f77",
+        "android_client_info": {
+          "package_name": "com.example.budgetingessentials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148803982038-ccqpp73flro7ajrm0a4f1aerjo9kgrqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.budgetingessentials",
+            "certificate_hash": "ea19d4226bef3f460f4f91b6141ca792379e22ce"
+          }
+        },
+        {
+          "client_id": "148803982038-hesh689jrnobj5khereg189iteuljqlb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIObCb2emsXTIB9nO26tPyKLMvzdZiXV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148803982038-hesh689jrnobj5khereg189iteuljqlb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
