@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                mDialog.setMessage("Processing...");
+                mDialog.setMessage("Registering account...");
                 mDialog.show();
 
                 mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

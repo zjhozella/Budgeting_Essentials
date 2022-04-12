@@ -6,4 +6,7 @@
     <color name="dark_secondary">#013D87</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="toolbar_color">#1B75E3</color>
+    <color name="nav_header">#058020</color>
 </resources>
