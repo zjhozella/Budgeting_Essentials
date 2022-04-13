@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // So the user does not have to log in every time they start the app
+        if (mAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
+
         mDialog = new ProgressDialog(this);
 
         loginDetails();

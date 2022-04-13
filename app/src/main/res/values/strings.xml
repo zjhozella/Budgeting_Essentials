@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">BudgetingEssentials</string>
+    <string name="app_name">Budgeting Essentials</string>
 
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
 
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="df">DASHBOARD</string>
+    <string name="incf">INCOME</string>
+    <string name="ef">EXPENSE</string>
 </resources>

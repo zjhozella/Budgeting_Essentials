@@ -1,84 +1,71 @@
 package com.example.budgetingessentials;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.view.MenuItem;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.navigation.NavigationView;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
+
+    private BottomNavigationView bottomNavigationView;
+    private FrameLayout frameLayout;
+
+    // Fragments
+    private DashboardFragment dashboardFragment;
+    private IncomeFragment incomeFragment;
+    private ExpenseFragment expenseFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*Toolbar toolbar = findViewById(R.id.m_toolbar);
-        toolbar.setTitle("Budgeting Essentials");
-        setSupportActionBar(toolbar);
+        bottomNavigationView = findViewById(R.id.bottomNavBar);
+        frameLayout = findViewById(R.id.main_frame);
 
-        //DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        dashboardFragment = new DashboardFragment();
+        incomeFragment = new IncomeFragment();
+        expenseFragment = new ExpenseFragment();
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        );
+        setFragment(dashboardFragment);
 
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();*/
-
-        /*NavigationView navigationView = findViewById(R.id.navView);
-        navigationView.setNavigationItemSelectedListener(this);*/
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.dashboard:
+                        setFragment(dashboardFragment);
+                        //bottomNavigationView.setItemBackgroundResource(R.color.dashboard_color);
+                        return true;
+                    case R.id.income:
+                        setFragment(incomeFragment);
+                        //bottomNavigationView.setItemBackgroundResource(R.color.income_color);
+                        return true;
+                    case R.id.expense:
+                        setFragment(expenseFragment);
+                        //bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
-    /*@Override
-    public void onBackPressed(){
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+    private void setFragment(Fragment fragment) {
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)){
-            drawerLayout.closeDrawer(GravityCompat.END);
-        }else{
-            super.onBackPressed();
-        }
-    }*/
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
 
-    /*public void displaySelectedListener(int itemId){
-        Fragment fragment = null;
-
-        switch (itemId){
-            case R.id.dashboard:
-
-                break;
-
-            case R.id.income:
-
-                break;
-
-            case R.id.expense:
-
-                break;
-        }
-
-        if (fragment != null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame, fragment);
-            ft.commit();
-        }
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        displaySelectedListener(item.getItemId());
-        return true;
-    }*/
+
 }
