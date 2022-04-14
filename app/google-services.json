@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "148803982038",
-    "project_id": "budgeting-essentials",
-    "storage_bucket": "budgeting-essentials.appspot.com"
+    "project_number": "700779126814",
+    "project_id": "budgeting-essentials-4f3cd",
+    "storage_bucket": "budgeting-essentials-4f3cd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:148803982038:android:966f59cf30a3ba2e5c6f77",
+        "mobilesdk_app_id": "1:700779126814:android:d6be5f986b5d5e39c68e0f",
         "android_client_info": {
           "package_name": "com.example.budgetingessentials"
         }
       },
       "oauth_client": [
         {
-          "client_id": "148803982038-ccqpp73flro7ajrm0a4f1aerjo9kgrqa.apps.googleusercontent.com",
+          "client_id": "700779126814-1hnh4nbbm85hvuh10e6ijdr0g0e71snp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.budgetingessentials",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "148803982038-hesh689jrnobj5khereg189iteuljqlb.apps.googleusercontent.com",
+          "client_id": "700779126814-qhjl29etl9a108er5kbnqv12o8trvnsg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDIObCb2emsXTIB9nO26tPyKLMvzdZiXV8"
+          "current_key": "AIzaSyC5Tl6vOLZoWLpZCvRfyvW6V78H90o-J4A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "148803982038-hesh689jrnobj5khereg189iteuljqlb.apps.googleusercontent.com",
+              "client_id": "700779126814-qhjl29etl9a108er5kbnqv12o8trvnsg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
