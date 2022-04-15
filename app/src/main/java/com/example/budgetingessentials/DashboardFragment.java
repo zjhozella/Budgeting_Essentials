@@ -83,38 +83,40 @@ public class DashboardFragment extends Fragment {
         fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 addData();
-
-                if (isOpen){
-                    fab_income.startAnimation(fadeClose);
-                    fab_expense.startAnimation(fadeClose);
-                    fab_income.setClickable(false);
-                    fab_expense.setClickable(false);
-
-                    fab_income_txt.startAnimation(fadeClose);
-                    fab_expense_txt.startAnimation(fadeClose);
-                    fab_income_txt.setClickable(false);
-                    fab_expense_txt.setClickable(false);
-                    isOpen = false;
-
-                }else {
-                    fab_income.startAnimation(fadeOpen);
-                    fab_expense.startAnimation(fadeOpen);
-                    fab_income.setClickable(true);
-                    fab_expense.setClickable(true);
-
-                    fab_income_txt.startAnimation(fadeOpen);
-                    fab_expense_txt.startAnimation(fadeOpen);
-                    fab_income_txt.setClickable(true);
-                    fab_expense_txt.setClickable(true);
-                    isOpen = true;
-                }
-
+                ftAnimation();
             }
         });
 
         return myView;
+    }
+
+    // Floating Button Animation
+    private void ftAnimation(){
+        if (isOpen){
+            fab_income.startAnimation(fadeClose);
+            fab_expense.startAnimation(fadeClose);
+            fab_income.setClickable(false);
+            fab_expense.setClickable(false);
+
+            fab_income_txt.startAnimation(fadeClose);
+            fab_expense_txt.startAnimation(fadeClose);
+            fab_income_txt.setClickable(false);
+            fab_expense_txt.setClickable(false);
+            isOpen = false;
+
+        }else {
+            fab_income.startAnimation(fadeOpen);
+            fab_expense.startAnimation(fadeOpen);
+            fab_income.setClickable(true);
+            fab_expense.setClickable(true);
+
+            fab_income_txt.startAnimation(fadeOpen);
+            fab_expense_txt.startAnimation(fadeOpen);
+            fab_income_txt.setClickable(true);
+            fab_expense_txt.setClickable(true);
+            isOpen = true;
+        }
     }
 
     private void addData(){
@@ -127,11 +129,11 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        // Fab Button Expese
+        // Fab Button Expense
         fab_expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                expenseDataInsert();
             }
         });
 
@@ -145,6 +147,7 @@ public class DashboardFragment extends Fragment {
         View myView = inflater.inflate(R.layout.layout_insert_data, null);
         myDialog.setView(myView);
         AlertDialog dialog = myDialog.create();
+        dialog.setCancelable(false);
 
         EditText edtAmount = myView.findViewById(R.id.amount_edt);
         EditText edtType = myView.findViewById(R.id.type_edt);
@@ -172,10 +175,7 @@ public class DashboardFragment extends Fragment {
 
                 int int_amount = Integer.parseInt(amount);
 
-                if(TextUtils.isEmpty(note)){
-                    edtNote.setError("Required Field...");
-                    return;
-                }
+
 
                 String id = mIncomeDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
@@ -196,7 +196,7 @@ public class DashboardFragment extends Fragment {
 
 
                 dialog.dismiss();
-
+                ftAnimation();
             }
         });
 
@@ -204,6 +204,79 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                ftAnimation();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void expenseDataInsert(){
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+        View myView = inflater.inflate(R.layout.layout_insert_data, null);
+        myDialog.setView(myView);
+        AlertDialog dialog = myDialog.create();
+        dialog.setCancelable(false);
+
+        EditText edtAmount = myView.findViewById(R.id.amount_edt);
+        EditText edtType = myView.findViewById(R.id.type_edt);
+        EditText edtNote = myView.findViewById(R.id.note_edt);
+
+        Button btnSave = myView.findViewById(R.id.btnSave);
+        Button btnCancel = myView.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String type = edtType.getText().toString().trim();
+                String amount = edtAmount.getText().toString().trim();
+                String note = edtNote.getText().toString().trim();
+
+                if(TextUtils.isEmpty(type)){
+                    edtType.setError("Required Field...");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(amount)){
+                    edtAmount.setError("Required Field...");
+                    return;
+                }
+
+                int int_amount = Integer.parseInt(amount);
+
+
+
+                String id = mExpenseDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(int_amount, type, note, id, mDate);
+                mExpenseDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getActivity(), "Data Upload Successful", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Data Upload Failed", Toast.LENGTH_SHORT).show();
+                                System.out.println("DATA UPLOAD FIREBASE FAILED: " + e);
+                            }
+                        });;
+
+
+                dialog.dismiss();
+                ftAnimation();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                ftAnimation();
             }
         });
 
