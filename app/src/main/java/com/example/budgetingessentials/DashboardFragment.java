@@ -41,7 +41,7 @@ public class DashboardFragment extends Fragment {
     private TextView fab_income_txt;
     private TextView fab_expense_txt;
 
-    private boolean isOpen = false;
+    public static boolean isOpen = false;
 
     // Floating action button animation
     private Animation fadeOpen, fadeClose;
