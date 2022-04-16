@@ -20,6 +20,8 @@ public class Data {
         return amount;
     }
 
+    public String getAmountString() { return String.valueOf(amount); }
+
     public void setAmount(int amount) {
         this.amount = amount;
     }
