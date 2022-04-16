@@ -43,7 +43,7 @@
                     android:layout_margin="10dp">
 
                     <EditText
-                        android:id="@+id/amount_edt"
+                        android:id="@+id/amount_edt_u"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="$105.32">
@@ -85,9 +85,9 @@
                     android:layout_margin="10dp">
 
                     <EditText
+                        android:id="@+id/type_edt_u"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/type_edt"
                         android:hint="Expense">
 
                     </EditText>
@@ -127,9 +127,9 @@
                     android:layout_margin="10dp">
 
                     <EditText
+                        android:id="@+id/note_edt_u"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/note_edt"
                         android:hint="Paid on the first of every month">
 
                     </EditText>
@@ -152,11 +152,11 @@
                     android:gravity="center">
 
                     <Button
-                        android:id="@+id/btnCancel"
+                        android:id="@+id/btnDelete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/expense_color"
-                        android:text="Cancel"
+                        android:text="Delete"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/white">
 
@@ -173,11 +173,11 @@
                     android:gravity="center">
 
                     <Button
-                        android:id="@+id/btnSave"
+                        android:id="@+id/btnUpdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/income_color"
-                        android:text="Save"
+                        android:text="Update"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/white">
 

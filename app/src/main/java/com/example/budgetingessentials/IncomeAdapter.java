@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +37,16 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("ON CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
+                if (context instanceof HomeActivity){
+                    ((HomeActivity) context).updateIncomeDataItem();
+                }
+            }
+        });
     }
 
     @Override
@@ -54,6 +65,8 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
             type = itemView.findViewById(R.id.type_txt_income);
             note = itemView.findViewById(R.id.note_txt_income);
             date = itemView.findViewById(R.id.date_txt_income);
+
+
 
         }
     }
