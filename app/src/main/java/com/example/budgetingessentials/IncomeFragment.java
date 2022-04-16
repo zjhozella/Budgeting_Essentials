@@ -32,7 +32,7 @@ public class IncomeFragment extends Fragment {
 
     // RV
     private RecyclerView recyclerView;
-    MyAdapter myAdapter;
+    IncomeAdapter incomeAdapter;
     ArrayList<Data> list;
 
     // Total Income
@@ -78,13 +78,15 @@ public class IncomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        myAdapter = new MyAdapter(getContext(), list);
-        recyclerView.setAdapter(myAdapter);
+        incomeAdapter = new IncomeAdapter(getContext(), list);
+        recyclerView.setAdapter(incomeAdapter);
 
         mIncomeDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                // Reset total
+                incomeTotalSum = 0;
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
@@ -96,7 +98,7 @@ public class IncomeFragment extends Fragment {
 
                     list.add(data);
                 }
-                myAdapter.notifyDataSetChanged();
+                incomeAdapter.notifyDataSetChanged();
             }
 
             @Override

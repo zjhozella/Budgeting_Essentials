@@ -4,12 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="5dp"
     android:elevation="5dp"
+    android:background="@color/white"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@drawable/data_background"
         android:layout_margin="5dp">
 
         <RelativeLayout
@@ -18,13 +21,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/date_txt_expense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="6 May 2022"
-                android:textAppearance="?textAppearanceListItemSmall"
                 android:textColor="@color/black"
-                android:textStyle="bold">
+                android:textAppearance="?textAppearanceListItemSmall"
+                android:textStyle="bold"
+                android:id="@+id/date_txt_expense">
 
             </TextView>
 
@@ -37,26 +40,25 @@
             android:layout_weight="2">
 
             <TextView
-                android:id="@+id/type_txt_expense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:text="Type"
-                android:textAppearance="?textAppearanceListItemSmall"
+                android:maxLines="1"
                 android:textColor="@color/black"
-                android:textStyle="bold">
+                android:textAppearance="?textAppearanceListItemSmall"
+                android:textStyle="bold"
+                android:id="@+id/type_txt_expense">
 
             </TextView>
-
             <TextView
-                android:id="@+id/note_txt_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/type_txt_expense"
-                android:maxLines="1"
                 android:text="This is a note"
+                android:maxLines="1"
+                android:layout_below="@+id/type_txt_expense"
+                android:textColor="@color/black"
                 android:textAppearance="?textAppearanceListItemSmall"
-                android:textColor="@color/black">
+                android:id="@+id/note_txt_expense">
 
             </TextView>
 
@@ -69,13 +71,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/amount_txt_expense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="000.00"
-                android:textAppearance="?textAppearanceListItemSmall"
                 android:textColor="@color/black"
-                android:textStyle="bold">
+                android:textAppearance="?textAppearanceListItemSmall"
+                android:textStyle="bold"
+                android:id="@+id/amount_txt_expense">
 
             </TextView>
 
@@ -83,5 +85,6 @@
         </RelativeLayout>
 
     </LinearLayout>
+
 
 </androidx.cardview.widget.CardView>
