@@ -28,7 +28,7 @@ import java.nio.channels.AlreadyBoundException;
 import java.util.ArrayList;
 
 
-public class IncomeFragment extends Fragment {
+public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRecycler {
 
    // Firebase
     private FirebaseAuth mAuth;
@@ -51,6 +51,11 @@ public class IncomeFragment extends Fragment {
 
     private Button btnUpdate;
     private Button btnDelete;
+
+    // Data
+    private String type;
+    private String note;
+    private int amount;
 
 
 
@@ -90,7 +95,7 @@ public class IncomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        incomeAdapter = new IncomeAdapter(getContext(), list);
+        incomeAdapter = new IncomeAdapter(getContext(), list, this);
         recyclerView.setAdapter(incomeAdapter);
 
         mIncomeDatabase.addValueEventListener(new ValueEventListener() {
@@ -122,7 +127,8 @@ public class IncomeFragment extends Fragment {
         return view;
     }
 
-    public void updateIncomeDataItem(){
+    @Override
+    public void UpdateIncomeDataItem() {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.layout_update_data, null);
