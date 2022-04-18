@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity /*implements NavigationView.
 
         setFragment(dashboardFragment);
 
+        // Controls where each navigation button takes you
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -74,40 +75,5 @@ public class HomeActivity extends AppCompatActivity /*implements NavigationView.
         fragmentTransaction.commit();
 
     }
-
-    public void updateIncomeDataItem(){
-        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.layout_update_data, null);
-        myDialog.setView(view);
-
-        EditText edtAmount = view.findViewById(R.id.amount_edt_u);
-        EditText edtType = view.findViewById(R.id.type_edt_u);
-        EditText edtNote = view.findViewById(R.id.note_edt_u);
-
-        Button btnUpdate = view.findViewById(R.id.btnUpdate);
-        Button btnDelete = view.findViewById(R.id.btnDelete);
-
-        AlertDialog dialog = myDialog.create();
-
-        btnUpdate.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        btnDelete.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
 
 }

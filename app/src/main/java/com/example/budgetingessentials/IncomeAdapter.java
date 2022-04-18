@@ -33,6 +33,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
         return new MyViewHolder(v, incomeListener);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = list.get(position);
@@ -41,11 +42,12 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
 
+        // Called when an item is tapped
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
-                incomeListener.UpdateIncomeDataItem();
+                incomeListener.UpdateIncomeDataItem(data.getType(), data.getNote(), data.getAmount());
             }
         });
     }
@@ -58,34 +60,21 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
     public static class MyViewHolder extends  RecyclerView.ViewHolder{
 
         TextView amount, type, note, date;
-        View rootView;
-        IIncomeRecycler incomeListener;
+
 
         public MyViewHolder(@NonNull View itemView, IIncomeRecycler incomeListener) {
             super(itemView);
-            rootView = itemView;
-            this.incomeListener = incomeListener;
 
             amount = itemView.findViewById(R.id.amount_txt_income);
             type = itemView.findViewById(R.id.type_txt_income);
             note = itemView.findViewById(R.id.note_txt_income);
             date = itemView.findViewById(R.id.date_txt_income);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("ON HOLDER CLICK LISTENER AT: " + getBindingAdapterPosition() + " " + type);
-
-                }
-            });
-
-
-
         }
     }
 
     interface IIncomeRecycler{
-        void UpdateIncomeDataItem();
+        void UpdateIncomeDataItem(String type, String note, int amount);
     }
 
 }

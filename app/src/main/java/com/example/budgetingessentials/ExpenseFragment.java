@@ -1,5 +1,6 @@
 package com.example.budgetingessentials;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class ExpenseFragment extends Fragment {
+public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpenseRecycler {
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -38,6 +41,14 @@ public class ExpenseFragment extends Fragment {
     // Total Expense
     public static int expenseTotalSum;
     private TextView expenseTotal;
+
+    // Update Expense Data
+    private EditText edtAmount;
+    private EditText edtType;
+    private EditText edtNote;
+
+    private Button btnUpdate;
+    private Button btnDelete;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -74,7 +85,7 @@ public class ExpenseFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        expenseAdapter = new ExpenseAdapter(getContext(), list);
+        expenseAdapter = new ExpenseAdapter(getContext(), list, this);
         recyclerView.setAdapter(expenseAdapter);
 
         mExpenseDatabase.addValueEventListener(new ValueEventListener() {
@@ -104,5 +115,44 @@ public class ExpenseFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void UpdateExpenseDataItem(String type, String note, int amount) {
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.layout_update_data, null);
+        myDialog.setView(view);
+
+        edtAmount = view.findViewById(R.id.amount_edt_u);
+        edtType = view.findViewById(R.id.type_edt_u);
+        edtNote = view.findViewById(R.id.note_edt_u);
+
+        edtType.setText(type);
+        edtNote.setText(note);
+        edtAmount.setText(String.valueOf(amount));
+
+        btnUpdate = view.findViewById(R.id.btnUpdate);
+        btnDelete = view.findViewById(R.id.btnDelete);
+
+        AlertDialog dialog = myDialog.create();
+
+        btnUpdate.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

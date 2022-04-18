@@ -17,9 +17,13 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
 
     ArrayList<Data> list;
 
-    public ExpenseAdapter(Context context, ArrayList<Data> list) {
+    IExpenseRecycler expenseRecycler;
+
+    public ExpenseAdapter(Context context, ArrayList<Data> list, IExpenseRecycler expenseRecycler) {
         this.context = context;
         this.list = list;
+
+        this.expenseRecycler = expenseRecycler;
     }
 
     @NonNull
@@ -36,6 +40,15 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
+
+        // Called when an item is tapped
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
+                expenseRecycler.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount());
+            }
+        });
     }
 
     @Override
@@ -56,6 +69,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
             date = itemView.findViewById(R.id.date_txt_expense);
 
         }
+    }
+
+    interface IExpenseRecycler{
+        void UpdateExpenseDataItem(String type, String note, int amount);
     }
 
 }

@@ -52,12 +52,6 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
     private Button btnUpdate;
     private Button btnDelete;
 
-    // Data
-    private String type;
-    private String note;
-    private int amount;
-
-
 
     public IncomeFragment() {
         // Required empty public constructor
@@ -76,19 +70,18 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_income, container, false);
 
+        // Define recycler view
         recyclerView = view.findViewById(R.id.rv_income);
 
+        // Setup database path //TODO Add email as part of path above UID
         mAuth = FirebaseAuth.getInstance();
-
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
-
         mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
 
         incomeTotal = view.findViewById(R.id.income_txt_total);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setHasFixedSize(true);
@@ -98,6 +91,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         incomeAdapter = new IncomeAdapter(getContext(), list, this);
         recyclerView.setAdapter(incomeAdapter);
 
+        // Called every time an item is added to the database
         mIncomeDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,8 +121,9 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         return view;
     }
 
+    // Part of the IIncomeRecycler interface. Called when a user taps on an item
     @Override
-    public void UpdateIncomeDataItem() {
+    public void UpdateIncomeDataItem(String type, String note, int amount) {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.layout_update_data, null);
@@ -137,6 +132,10 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         edtAmount = view.findViewById(R.id.amount_edt_u);
         edtType = view.findViewById(R.id.type_edt_u);
         edtNote = view.findViewById(R.id.note_edt_u);
+
+        edtType.setText(type);
+        edtNote.setText(note);
+        edtAmount.setText(String.valueOf(amount));
 
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
