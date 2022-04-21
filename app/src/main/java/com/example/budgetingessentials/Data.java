@@ -2,7 +2,7 @@ package com.example.budgetingessentials;
 
 public class Data {
 
-    private int amount;
+    private String amount;
     private String type;
     private String note;
     private String id;
@@ -12,7 +12,7 @@ public class Data {
 
     }
 
-    public Data(int amount, String type, String note, String id, String date) {
+    public Data(String amount, String type, String note, String id, String date) {
         this.amount = amount;
         this.type = type;
         this.note = note;
@@ -20,13 +20,11 @@ public class Data {
         this.date = date;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public String getAmountString() { return String.valueOf(amount); }
-
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 

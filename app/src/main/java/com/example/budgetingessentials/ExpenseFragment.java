@@ -99,7 +99,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
                     Data data = dataSnapshot.getValue(Data.class);
 
                     // Increment the total expense amount for each existing expense
-                    expenseTotalSum += data.getAmount();
+                    expenseTotalSum += Integer.parseInt(data.getAmount());
                     String stTotal = String.valueOf(expenseTotalSum);
                     expenseTotal.setText("$" + stTotal);
 
@@ -118,20 +118,27 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
     }
 
     @Override
-    public void UpdateExpenseDataItem(String type, String note, int amount) {
+    public void UpdateExpenseDataItem(String type, String note, String amount, String id) {
+        // Setup the dialog
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.layout_update_data, null);
         myDialog.setView(view);
 
+        // Connect the edit fields
         edtAmount = view.findViewById(R.id.amount_edt_u);
         edtType = view.findViewById(R.id.type_edt_u);
         edtNote = view.findViewById(R.id.note_edt_u);
 
+        // Show the selected item's data in the edit fields
         edtType.setText(type);
+        edtType.setSelection(type.length());
         edtNote.setText(note);
-        edtAmount.setText(String.valueOf(amount));
+        edtNote.setSelection(note.length());
+        edtAmount.setText(amount);
+        edtAmount.setSelection(amount.length());
 
+        // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
 

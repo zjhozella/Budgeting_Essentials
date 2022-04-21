@@ -36,7 +36,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = list.get(position);
-        holder.amount.setText(data.getAmountString());
+        holder.amount.setText(data.getAmount());
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
@@ -46,7 +46,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
             @Override
             public void onClick(View view) {
                 System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
-                expenseRecycler.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount());
+                expenseRecycler.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
             }
         });
     }
@@ -72,7 +72,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     }
 
     interface IExpenseRecycler{
-        void UpdateExpenseDataItem(String type, String note, int amount);
+        void UpdateExpenseDataItem(String type, String note, String amount, String id);
     }
 
 }

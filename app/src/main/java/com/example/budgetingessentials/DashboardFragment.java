@@ -173,13 +173,11 @@ public class DashboardFragment extends Fragment {
                     return;
                 }
 
-                int int_amount = Integer.parseInt(amount);
-
 
 
                 String id = mIncomeDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(int_amount, type, note, id, mDate);
+                Data data = new Data(amount, type, note, id, mDate);
                 mIncomeDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -245,13 +243,13 @@ public class DashboardFragment extends Fragment {
                     return;
                 }
 
-                int int_amount = Integer.parseInt(amount);
+
 
 
 
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(int_amount, type, note, id, mDate);
+                Data data = new Data(amount, type, note, id, mDate);
                 mExpenseDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

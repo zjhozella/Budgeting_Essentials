@@ -37,7 +37,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = list.get(position);
-        holder.amount.setText(data.getAmountString());
+        holder.amount.setText(data.getAmount());
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
@@ -47,7 +47,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
-                incomeListener.UpdateIncomeDataItem(data.getType(), data.getNote(), data.getAmount());
+                incomeListener.UpdateIncomeDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
             }
         });
     }
@@ -74,7 +74,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
     }
 
     interface IIncomeRecycler{
-        void UpdateIncomeDataItem(String type, String note, int amount);
+        void UpdateIncomeDataItem(String type, String note, String amount, String id);
     }
 
 }

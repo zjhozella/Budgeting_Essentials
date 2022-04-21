@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.nio.channels.AlreadyBoundException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRecycler {
@@ -103,13 +106,20 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                     Data data = dataSnapshot.getValue(Data.class);
 
                     // Increment the total income amount for each existing income
-                    incomeTotalSum += data.getAmount();
+                    incomeTotalSum += Integer.parseInt(data.getAmount());
                     String stTotal = String.valueOf(incomeTotalSum);
                     incomeTotal.setText("$" + stTotal);
 
                     list.add(data);
+                    Log.w("onDataChange", data.getAmount() + " ADDED TO LIST!");
+
+                    for (int i = 0; i < list.size(); ++i){
+                        Log.w("onDataChange-ArrayList", list.get(i).getAmount());
+                    }
+                    Log.w("onDataChange", "onDataChange");
                 }
                 incomeAdapter.notifyDataSetChanged();
+                Log.w("incomeAdapter", "Notify data set changed.");
             }
 
             @Override
@@ -123,20 +133,27 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
     // Part of the IIncomeRecycler interface. Called when a user taps on an item
     @Override
-    public void UpdateIncomeDataItem(String type, String note, int amount) {
+    public void UpdateIncomeDataItem(String type, String note, String amount, String id) {
+        // Build the dialog
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.layout_update_data, null);
         myDialog.setView(view);
 
+        // Connect the edit fields
         edtAmount = view.findViewById(R.id.amount_edt_u);
         edtType = view.findViewById(R.id.type_edt_u);
         edtNote = view.findViewById(R.id.note_edt_u);
 
+        // Show the selected item's data in the edit fields
         edtType.setText(type);
+        edtType.setSelection(type.length());
         edtNote.setText(note);
-        edtAmount.setText(String.valueOf(amount));
+        edtNote.setSelection(note.length());
+        edtAmount.setText(amount);
+        edtAmount.setSelection(amount.length());
 
+        // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
 
@@ -146,6 +163,23 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
             @Override
             public void onClick(View view) {
+                // Get data from fields
+                String fType = edtType.getText().toString().trim();
+                String fNote = edtNote.getText().toString().trim();
+                String sAmount = edtAmount.getText().toString().trim();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(sAmount, fType, fNote, id, mDate);
+
+                // Update selected data item to be equal to what is in the edit fields
+                mIncomeDatabase.child(id).setValue(data);
+                for (int i = 0; i < list.size(); ++i){
+                    Log.w("onClick1-ArrayList", list.get(i).getAmount());
+                }
+                list.clear();
+                for (int i = 0; i < list.size(); ++i){
+                    Log.w("onClick2-ArrayList", list.get(i).getAmount());
+                }
+                dialog.dismiss();
 
             }
         });
