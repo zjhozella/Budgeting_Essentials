@@ -43,7 +43,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
     // RV
     private RecyclerView recyclerView;
     IncomeAdapter incomeAdapter;
-    public static ArrayList<Data> list;
+    public static ArrayList<Data> list = new ArrayList<>();
 
     // Total Income
     public static int incomeTotalSum;
@@ -92,7 +92,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        list = new ArrayList<>();
+        //list = new ArrayList<>();
         incomeAdapter = new IncomeAdapter(getContext(), this);
         recyclerView.setAdapter(incomeAdapter);
 
@@ -124,15 +124,41 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                         Log.w("IF Statement", data.getId() + " : ID");
                         return;
                     }*/
+
+                    for (int i = 0; i < list.size(); ++i){
+                        Log.w("1onDataChange-ArrayList", list.get(i).getAmount());
+                    }
+
+                    for (int i = 0; i < list.size(); ++i){
+                        //Log.w("FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
+                        if (list.get(i).getId().toString().equals(data.getId().toString())){
+                            Log.w("1FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
+                            incomeTotalSum = 0;
+                            for (int j = 0; j < list.size(); ++j){
+                                incomeTotalSum += Integer.parseInt(list.get(j).getAmount());
+                                Log.w("INCOME TOTAL:", "+:" + list.get(j).getAmount() + " : " + incomeTotalSum);
+                            }
+                            String stTotalx = String.valueOf(incomeTotalSum);
+                            incomeTotal.setText("$" + stTotalx);
+                            return;
+                        }else
+                        {
+                            Log.w("2FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
+
+                        }
+                    }
+
                     list.add(data);
 
                     Log.w("onDataChange", data.getAmount() + " ADDED TO LIST!");
 
                     for (int i = 0; i < list.size(); ++i){
-                        Log.w("onDataChange-ArrayList", list.get(i).getAmount());
+                        Log.w("2onDataChange-ArrayList", list.get(i).getAmount());
                     }
                     Log.w("onDataChange", "onDataChange");
                 }
+
+
 
                 incomeAdapter.notifyDataSetChanged();
                 //incomeAdapter.notifyItemChanged();
