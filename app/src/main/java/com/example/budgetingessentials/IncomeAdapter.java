@@ -15,13 +15,19 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     Context context;
 
-    ArrayList<Data> list;
+    //ArrayList<Data> list;
 
     IIncomeRecycler incomeListener;
 
-    public IncomeAdapter(Context context, ArrayList<Data> list, IIncomeRecycler incomeListener) {
+    /*public IncomeAdapter(Context context, ArrayList<Data> list, IIncomeRecycler incomeListener) {
         this.context = context;
         this.list = list;
+
+        this.incomeListener = incomeListener;
+    }*/
+
+    public IncomeAdapter(Context context, IIncomeRecycler incomeListener) {
+        this.context = context;
 
         this.incomeListener = incomeListener;
     }
@@ -36,7 +42,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Data data = list.get(position);
+        Data data = IncomeFragment.list.get(position);
         holder.amount.setText(data.getAmount());
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
@@ -54,7 +60,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return IncomeFragment.list.size();
     }
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder{

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +43,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
     // RV
     private RecyclerView recyclerView;
     IncomeAdapter incomeAdapter;
-    ArrayList<Data> list;
+    public static ArrayList<Data> list;
 
     // Total Income
     public static int incomeTotalSum;
@@ -91,8 +93,12 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        incomeAdapter = new IncomeAdapter(getContext(), list, this);
+        incomeAdapter = new IncomeAdapter(getContext(), this);
         recyclerView.setAdapter(incomeAdapter);
+
+        Log.w("onCreateView", "onCreateView");
+
+
 
         // Called every time an item is added to the database
         mIncomeDatabase.addValueEventListener(new ValueEventListener() {
@@ -105,12 +111,21 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
 
+                    Log.w("SNAPSHOT", "getChildren:" + dataSnapshot.getValue());
+
                     // Increment the total income amount for each existing income
                     incomeTotalSum += Integer.parseInt(data.getAmount());
                     String stTotal = String.valueOf(incomeTotalSum);
                     incomeTotal.setText("$" + stTotal);
 
+                    //list.clear();
+
+                    /*if (list.contains(dataSnapshot.getId())){
+                        Log.w("IF Statement", data.getId() + " : ID");
+                        return;
+                    }*/
                     list.add(data);
+
                     Log.w("onDataChange", data.getAmount() + " ADDED TO LIST!");
 
                     for (int i = 0; i < list.size(); ++i){
@@ -118,7 +133,9 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                     }
                     Log.w("onDataChange", "onDataChange");
                 }
+
                 incomeAdapter.notifyDataSetChanged();
+                //incomeAdapter.notifyItemChanged();
                 Log.w("incomeAdapter", "Notify data set changed.");
             }
 
@@ -176,6 +193,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                     Log.w("onClick1-ArrayList", list.get(i).getAmount());
                 }
                 list.clear();
+                Log.w("List", "CLEARED");
                 for (int i = 0; i < list.size(); ++i){
                     Log.w("onClick2-ArrayList", list.get(i).getAmount());
                 }
