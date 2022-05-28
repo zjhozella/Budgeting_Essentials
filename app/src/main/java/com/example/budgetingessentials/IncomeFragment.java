@@ -108,6 +108,9 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                 // Reset total
                 incomeTotalSum = 0;
 
+                //Clear the list to update with fresh data
+                list.clear();
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
 
