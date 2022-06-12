@@ -51,6 +51,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
     Button btnUpdate;
     Button btnDelete;
+    Button btnCancel;
 
 
     public IncomeFragment() {
@@ -189,6 +190,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
+        btnCancel = view.findViewById(R.id.btnCancel);
 
         AlertDialog dialog = myDialog.create();
 
@@ -218,11 +220,27 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener(){
+        btnCancel.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                // Delete the selected item by its id
+                mIncomeDatabase.child(id).removeValue();
+
+                incomeList.clear();
+
+                dialog.dismiss();
+
+
             }
         });
 

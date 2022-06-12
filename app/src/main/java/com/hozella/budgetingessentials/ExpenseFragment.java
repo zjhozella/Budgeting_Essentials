@@ -52,6 +52,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
 
     Button btnUpdate;
     Button btnDelete;
+    Button btnCancel;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -157,6 +158,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
         // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
+        btnCancel = view.findViewById(R.id.btnCancel);
 
         AlertDialog dialog = myDialog.create();
 
@@ -185,11 +187,27 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener(){
+        btnCancel.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                // Delete the selected item by its id
+                mExpenseDatabase.child(id).removeValue();
+
+                expenseList.clear();
+
+                dialog.dismiss();
+
+
             }
         });
 

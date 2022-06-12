@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -16,7 +17,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:gravity="center">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -46,7 +49,8 @@
                         android:id="@+id/amount_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="$105.32">
+                        android:hint="$105.32"
+                        tools:ignore="TouchTargetSizeCheck">
 
                     </EditText>
 
@@ -58,7 +62,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:gravity="center">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -85,10 +91,11 @@
                     android:layout_margin="10dp">
 
                     <EditText
+                        android:id="@+id/type_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/type_edt"
-                        android:hint="Expense">
+                        android:hint="Expense"
+                        tools:ignore="TouchTargetSizeCheck">
 
                     </EditText>
 
@@ -100,7 +107,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:gravity="center">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -142,7 +151,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -155,10 +165,11 @@
                         android:id="@+id/btnCancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/expense_color"
+                        android:backgroundTint="@color/expense_color"
                         android:text="Cancel"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white">
+                        android:textColor="@color/white"
+                        android:textSize="16sp">
 
                     </Button>
 
@@ -176,10 +187,11 @@
                         android:id="@+id/btnSave"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/income_color"
+                        android:backgroundTint="@color/income_color"
                         android:text="Save"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white">
+                        android:textColor="@color/white"
+                        android:textSize="16sp">
 
                     </Button>
 

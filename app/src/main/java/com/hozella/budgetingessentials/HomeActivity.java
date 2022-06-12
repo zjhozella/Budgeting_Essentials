@@ -280,12 +280,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
 
-
-
-
-
-
-
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
                 Data data = new Data(amount, type, note, id, mDate);
