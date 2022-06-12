@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,23 +24,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpenseRecycler {
 
     // Firebase
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
     private DatabaseReference mExpenseDatabase;
 
 
     // RV
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     ExpenseAdapter expenseAdapter;
-    ArrayList<Data> list;
+    public static ArrayList<Data> expenseList = new ArrayList<>();
 
     // Total Expense
-    public static int expenseTotalSum;
+
     private TextView expenseTotal;
 
     // Update Expense Data
@@ -47,8 +50,8 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
     private EditText edtType;
     private EditText edtNote;
 
-    private Button btnUpdate;
-    private Button btnDelete;
+    Button btnUpdate;
+    Button btnDelete;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -69,23 +72,20 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
         recyclerView = view.findViewById(R.id.rv_expense);
 
         mAuth = FirebaseAuth.getInstance();
-
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
-
         mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseData").child(uid);
 
         expenseTotal = view.findViewById(R.id.expense_txt_total);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        list = new ArrayList<>();
-        expenseAdapter = new ExpenseAdapter(getContext(), list, this);
+        //expenseList = new ArrayList<>();
+        expenseAdapter = new ExpenseAdapter(getContext(), this);
         recyclerView.setAdapter(expenseAdapter);
 
         mExpenseDatabase.addValueEventListener(new ValueEventListener() {
@@ -93,18 +93,34 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 // Reset total
-                expenseTotalSum = 0;
+                HomeActivity.expenseTotalSum = 0;
+
+                // Clear the list to update with fresh data
+                expenseList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
 
                     // Increment the total expense amount for each existing expense
-                    expenseTotalSum += Integer.parseInt(data.getAmount());
-                    String stTotal = String.valueOf(expenseTotalSum);
+                    HomeActivity.expenseTotalSum += Integer.parseInt(data.getAmount());
+                    String stTotal = String.valueOf(HomeActivity.expenseTotalSum);
                     expenseTotal.setText("$" + stTotal);
 
-                    list.add(data);
+                    for (int i = 0; i < expenseList.size(); ++i){
+                        if (expenseList.get(i).getId().equals(data.getId())){
+                            HomeActivity.expenseTotalSum = 0;
+                            for (int j  = 0; j < expenseList.size(); ++j){
+                                HomeActivity.expenseTotalSum += Integer.parseInt(expenseList.get(j).getAmount());
+                            }
+                            String stTotalx = String.valueOf(HomeActivity.expenseTotalSum);
+                            expenseTotal.setText("$" + stTotalx);
+                            return;
+                        }
+                    }
+
+                    expenseList.add(data);
                 }
+
                 expenseAdapter.notifyDataSetChanged();
             }
 
@@ -119,7 +135,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
 
     @Override
     public void UpdateExpenseDataItem(String type, String note, String amount, String id) {
-        // Setup the dialog
+        // Build the dialog
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.layout_update_data, null);
@@ -148,7 +164,24 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
 
             @Override
             public void onClick(View view) {
+                // Get data from fields
+                String fType = edtType.getText().toString().trim();
+                String fNote = edtNote.getText().toString().trim();
+                String sAmount = edtAmount.getText().toString().trim();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(sAmount, fType, fNote, id, mDate);
 
+                // Update selected data item to be equal to what is in the edit fields
+                mExpenseDatabase.child(id).setValue(data);
+                for (int i = 0; i < expenseList.size(); ++i){
+                    Log.w("onClick1-ArrayList", expenseList.get(i).getAmount());
+                }
+                expenseList.clear();
+                Log.w("List", "CLEARED");
+                for (int i = 0; i < expenseList.size(); ++i){
+                    Log.w("onClick2-ArrayList", expenseList.get(i).getAmount());
+                }
+                dialog.dismiss();
             }
         });
 

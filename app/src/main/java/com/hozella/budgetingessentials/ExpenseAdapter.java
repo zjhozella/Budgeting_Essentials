@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,21 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHolder> {
 
     Context context;
 
-    ArrayList<Data> list;
+    IExpenseRecycler expenseListener;
 
-    IExpenseRecycler expenseRecycler;
-
-    public ExpenseAdapter(Context context, ArrayList<Data> list, IExpenseRecycler expenseRecycler) {
+    public ExpenseAdapter(Context context, IExpenseRecycler expenseListener){
         this.context = context;
-        this.list = list;
-
-        this.expenseRecycler = expenseRecycler;
+        this.expenseListener = expenseListener;
     }
 
     @NonNull
@@ -35,7 +29,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Data data = list.get(position);
+        Data data = ExpenseFragment.expenseList.get(position);
         holder.amount.setText(data.getAmount());
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
@@ -45,15 +39,15 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
-                expenseRecycler.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
+                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getAdapterPosition() + " " + data.getType());
+                expenseListener.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return ExpenseFragment.expenseList.size();
     }
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder{

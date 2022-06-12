@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +26,10 @@ public class HomeActivity extends AppCompatActivity /*implements NavigationView.
     private DashboardFragment dashboardFragment;
     private IncomeFragment incomeFragment;
     private ExpenseFragment expenseFragment;
+
+    // Global Total Expense and Income
+    public static int expenseTotalSum = 0;
+    public static int incomeTotalSum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

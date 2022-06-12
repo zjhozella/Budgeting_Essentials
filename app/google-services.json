@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "700779126814",
+    "firebase_url": "https://budgeting-essentials-4f3cd-default-rtdb.firebaseio.com",
     "project_id": "budgeting-essentials-4f3cd",
     "storage_bucket": "budgeting-essentials-4f3cd.appspot.com"
   },
@@ -18,6 +19,43 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.budgetingessentials",
+            "certificate_hash": "ea19d4226bef3f460f4f91b6141ca792379e22ce"
+          }
+        },
+        {
+          "client_id": "700779126814-qhjl29etl9a108er5kbnqv12o8trvnsg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Tl6vOLZoWLpZCvRfyvW6V78H90o-J4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700779126814-qhjl29etl9a108er5kbnqv12o8trvnsg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700779126814:android:a4a1a669e7d30a26c68e0f",
+        "android_client_info": {
+          "package_name": "com.hozella.budgetingessentials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700779126814-na37vbe21gbo4r4dlkre24r77dfc1b47.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hozella.budgetingessentials",
             "certificate_hash": "ea19d4226bef3f460f4f91b6141ca792379e22ce"
           }
         },

@@ -72,12 +72,12 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/income_dashboard_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/income_dashboard_total"
+                        android:text="000.00"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
-                        android:text="000.00">
+                        android:textColor="@color/black">
 
                     </TextView>
 
@@ -90,12 +90,12 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/expense_dashboard_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/expense_dashboard_total"
+                        android:text="000.00"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
-                        android:text="000.00">
+                        android:textColor="@color/black">
 
                     </TextView>
 

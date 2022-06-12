@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import org.junit.Test;
 

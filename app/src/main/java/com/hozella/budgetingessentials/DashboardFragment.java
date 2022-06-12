@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -41,6 +41,9 @@ public class DashboardFragment extends Fragment {
     private TextView fab_income_txt;
     private TextView fab_expense_txt;
 
+    private TextView expense_total;
+    private TextView income_total;
+
     public static boolean isOpen = false;
 
     // Floating action button animation
@@ -68,6 +71,11 @@ public class DashboardFragment extends Fragment {
         mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
         mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseData").child(uid);
 
+        // Update Income and Expense total amounts
+        expense_total = myView.findViewById(R.id.expense_dashboard_total);
+        income_total = myView.findViewById(R.id.income_dashboard_total);
+        expense_total.setText(String.valueOf(HomeActivity.expenseTotalSum));
+        income_total.setText(String.valueOf(HomeActivity.incomeTotalSum));
 
         // Connect floating buttons and texts to layout
         fab_main = myView.findViewById(R.id.fb_main_btn);
@@ -171,7 +179,10 @@ public class DashboardFragment extends Fragment {
                 if(TextUtils.isEmpty(amount)){
                     edtAmount.setError("Required Field...");
                     return;
-                }
+                } else if(!TextUtils.isDigitsOnly(amount)){
+                    edtAmount.setError("Amount must be a number!");
+                    return;
+                    }
 
 
 
@@ -241,7 +252,12 @@ public class DashboardFragment extends Fragment {
                 if(TextUtils.isEmpty(amount)){
                     edtAmount.setError("Required Field...");
                     return;
-                }
+                } else if(!TextUtils.isDigitsOnly(amount)){
+                    edtAmount.setError("Amount must be a number!");
+                    return;
+                    }
+
+
 
 
 

@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import androidx.appcompat.app.AppCompatActivity;
 

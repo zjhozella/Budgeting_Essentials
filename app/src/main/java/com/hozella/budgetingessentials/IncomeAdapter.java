@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,22 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHolder> {
 
     Context context;
 
-    //ArrayList<Data> list;
-
     IIncomeRecycler incomeListener;
-
-    /*public IncomeAdapter(Context context, ArrayList<Data> list, IIncomeRecycler incomeListener) {
-        this.context = context;
-        this.list = list;
-
-        this.incomeListener = incomeListener;
-    }*/
 
     public IncomeAdapter(Context context, IIncomeRecycler incomeListener) {
         this.context = context;
@@ -42,7 +31,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Data data = IncomeFragment.list.get(position);
+        Data data = IncomeFragment.incomeList.get(position);
         holder.amount.setText(data.getAmount());
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
@@ -52,7 +41,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getBindingAdapterPosition() + " " + data.getType());
+                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getAdapterPosition() + " " + data.getType());
                 incomeListener.UpdateIncomeDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
             }
         });
@@ -60,7 +49,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return IncomeFragment.list.size();
+        return IncomeFragment.incomeList.size();
     }
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder{

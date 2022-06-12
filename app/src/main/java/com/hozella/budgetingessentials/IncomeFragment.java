@@ -1,15 +1,13 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +18,12 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.nio.channels.AlreadyBoundException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,17 +32,16 @@ import java.util.Date;
 public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRecycler {
 
    // Firebase
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
     private DatabaseReference mIncomeDatabase;
 
 
     // RV
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     IncomeAdapter incomeAdapter;
-    public static ArrayList<Data> list = new ArrayList<>();
+    public static ArrayList<Data> incomeList = new ArrayList<>();
 
     // Total Income
-    public static int incomeTotalSum;
     private TextView incomeTotal;
 
     // Update Income Data
@@ -54,8 +49,8 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
     private EditText edtType;
     private EditText edtNote;
 
-    private Button btnUpdate;
-    private Button btnDelete;
+    Button btnUpdate;
+    Button btnDelete;
 
 
     public IncomeFragment() {
@@ -106,10 +101,10 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 // Reset total
-                incomeTotalSum = 0;
+                HomeActivity.incomeTotalSum = 0;
 
-                //Clear the list to update with fresh data
-                list.clear();
+                // Clear the list to update with fresh data
+                incomeList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
@@ -117,46 +112,39 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                     Log.w("SNAPSHOT", "getChildren:" + dataSnapshot.getValue());
 
                     // Increment the total income amount for each existing income
-                    incomeTotalSum += Integer.parseInt(data.getAmount());
-                    String stTotal = String.valueOf(incomeTotalSum);
+                    HomeActivity.incomeTotalSum += Integer.parseInt(data.getAmount());
+                    String stTotal = String.valueOf(HomeActivity.incomeTotalSum);
                     incomeTotal.setText("$" + stTotal);
 
-                    //list.clear();
-
-                    /*if (list.contains(dataSnapshot.getId())){
-                        Log.w("IF Statement", data.getId() + " : ID");
-                        return;
-                    }*/
-
-                    for (int i = 0; i < list.size(); ++i){
-                        Log.w("1onDataChange-ArrayList", list.get(i).getAmount());
+                    for (int i = 0; i < incomeList.size(); ++i){
+                        Log.w("1onDataChange-ArrayList", incomeList.get(i).getAmount());
                     }
 
-                    for (int i = 0; i < list.size(); ++i){
+                    for (int i = 0; i < incomeList.size(); ++i){
                         //Log.w("FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
-                        if (list.get(i).getId().toString().equals(data.getId().toString())){
-                            Log.w("1FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
-                            incomeTotalSum = 0;
-                            for (int j = 0; j < list.size(); ++j){
-                                incomeTotalSum += Integer.parseInt(list.get(j).getAmount());
-                                Log.w("INCOME TOTAL:", "+:" + list.get(j).getAmount() + " : " + incomeTotalSum);
+                        if (incomeList.get(i).getId().equals(data.getId())){
+                            Log.w("1FOR", "IF:" + incomeList.get(i).getId() + " : " + data.getId());
+                            HomeActivity.incomeTotalSum = 0;
+                            for (int j = 0; j < incomeList.size(); ++j){
+                                HomeActivity.incomeTotalSum += Integer.parseInt(incomeList.get(j).getAmount());
+                                Log.w("INCOME TOTAL:", "+:" + incomeList.get(j).getAmount() + " : " + HomeActivity.incomeTotalSum);
                             }
-                            String stTotalx = String.valueOf(incomeTotalSum);
+                            String stTotalx = String.valueOf(HomeActivity.incomeTotalSum);
                             incomeTotal.setText("$" + stTotalx);
                             return;
                         }else
                         {
-                            Log.w("2FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
+                            Log.w("2FOR", "IF:" + incomeList.get(i).getId() + " : " + data.getId());
 
                         }
                     }
 
-                    list.add(data);
+                    incomeList.add(data);
 
                     Log.w("onDataChange", data.getAmount() + " ADDED TO LIST!");
 
-                    for (int i = 0; i < list.size(); ++i){
-                        Log.w("2onDataChange-ArrayList", list.get(i).getAmount());
+                    for (int i = 0; i < incomeList.size(); ++i){
+                        Log.w("2onDataChange-ArrayList", incomeList.get(i).getAmount());
                     }
                     Log.w("onDataChange", "onDataChange");
                 }
@@ -164,7 +152,6 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
 
                 incomeAdapter.notifyDataSetChanged();
-                //incomeAdapter.notifyItemChanged();
                 Log.w("incomeAdapter", "Notify data set changed.");
             }
 
@@ -218,13 +205,13 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
                 // Update selected data item to be equal to what is in the edit fields
                 mIncomeDatabase.child(id).setValue(data);
-                for (int i = 0; i < list.size(); ++i){
-                    Log.w("onClick1-ArrayList", list.get(i).getAmount());
+                for (int i = 0; i < incomeList.size(); ++i){
+                    Log.w("onClick1-ArrayList", incomeList.get(i).getAmount());
                 }
-                list.clear();
+                incomeList.clear();
                 Log.w("List", "CLEARED");
-                for (int i = 0; i < list.size(); ++i){
-                    Log.w("onClick2-ArrayList", list.get(i).getAmount());
+                for (int i = 0; i < incomeList.size(); ++i){
+                    Log.w("onClick2-ArrayList", incomeList.get(i).getAmount());
                 }
                 dialog.dismiss();
 

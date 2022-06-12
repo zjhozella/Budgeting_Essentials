@@ -1,4 +1,4 @@
-package com.example.budgetingessentials;
+package com.hozella.budgetingessentials;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,47 +17,55 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hozella.budgetingessentials.R;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private EditText mEmail;
     private EditText mPassword;
-    private Button btnReg;
-    private TextView mSignin;
+    private Button btnLogin;
+    private TextView mForgotPassword;
+    private TextView mSignup;
 
     private ProgressDialog mDialog;
 
     // Firebase
-
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
 
+        // So the user does not have to log in every time they start the app
+        if (mAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
+
         mDialog = new ProgressDialog(this);
 
-        registration();
+        loginDetails();
     }
 
-    private void registration(){
+    private void loginDetails(){
 
-        mEmail = findViewById(R.id.email_reg);
-        mPassword = findViewById(R.id.password_reg);
-        btnReg = findViewById(R.id.btn_reg);
-        mSignin = findViewById(R.id.signin);
+        mEmail = findViewById(R.id.email_login);
+        mPassword = findViewById(R.id.password_login);
+        btnLogin = findViewById(R.id.btn_login);
+        mForgotPassword = findViewById(R.id.forgot_password);
+        mSignup = findViewById(R.id.signup);
 
-        btnReg.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = mEmail.getText().toString().trim();
                 String pass = mPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required!");
+                    mEmail.setError("Email is Required");
                     return;
                 }
 
@@ -66,30 +74,40 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                mDialog.setMessage("Registering account...");
+                mDialog.setMessage("Logging in...");
                 mDialog.show();
 
-                mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
+
                             mDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                        }else{
+
+                            Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                        }else {
                             mDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Registration Failed!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
 
-        // Log In Activity (Main Activity)
-        mSignin.setOnClickListener(new View.OnClickListener() {
+        // Registration Activity
+        mSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+            }
+        });
+
+        // Reset Password Activity
+        mForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ResetActivity.class));
             }
         });
     }
