@@ -25,7 +25,29 @@
         android:background="@color/white"
         app:itemTextColor="@color/black"
         app:menu="@menu/nav_menu"
-        app:headerLayout="@layout/nav_header"/>
+        app:headerLayout="@layout/nav_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/nav_logout"
+                android:gravity="start|center"
+                android:text="Logout"
+                android:drawableLeft="@drawable/ic_logout"
+                android:drawableTint="@color/black"
+                android:backgroundTint="@color/expense_color">
+
+            </Button>
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 
 
 

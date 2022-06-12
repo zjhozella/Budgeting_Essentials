@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("ExpenseData");
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
-        toolbar.setTitle("Expense Manager");
+        toolbar.setTitle("Budgeting Essentials");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -232,8 +232,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 Toast.makeText(HomeActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
                                 Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
                             }
-                        });;
-
+                        });
+                incomeTotalSum += dAmount;
+                mUserDatabase.child("IncomeTotal").setValue(incomeTotalSum);
 
                 dialog.dismiss();
             }
@@ -308,11 +309,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
                             }
                         });;
-
+                expenseTotalSum += dAmount;
+                mUserDatabase.child("ExpenseTotal").setValue(expenseTotalSum);
 
                 dialog.dismiss();
             }
         });
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

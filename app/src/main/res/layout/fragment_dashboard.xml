@@ -77,7 +77,7 @@
                         android:id="@+id/income_dashboard_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="000.00"
+                        android:text="$0.00"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/black">
 
@@ -95,7 +95,7 @@
                         android:id="@+id/expense_dashboard_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="000.00"
+                        android:text="$0.00"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/black">
 
