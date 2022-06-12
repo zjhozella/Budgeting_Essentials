@@ -52,8 +52,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ExpenseFragment expenseFragment;
 
     // Global Total Expense and Income
-    public static int expenseTotalSum = 0;
-    public static int incomeTotalSum;
+    public static double expenseTotalSum = 0.0;
+    public static double incomeTotalSum = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +194,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 String type = edtType.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
+                Double dAmount = Double.parseDouble(amount);
                 String note = edtNote.getText().toString().trim();
 
                 if(TextUtils.isEmpty(type)){
@@ -204,16 +205,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if(TextUtils.isEmpty(amount)){
                     edtAmount.setError("Required Field...");
                     return;
-                } else if(!TextUtils.isDigitsOnly(amount)){
-                    edtAmount.setError("Amount must be a number!");
-                    return;
+                }else{
+                    try {
+                        Double num = Double.parseDouble(amount);
+                    }catch (NumberFormatException e){
+                        edtAmount.setError("Not a valid amount!");
+                    }
                 }
 
 
 
                 String id = mIncomeDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(amount, type, note, id, mDate);
+                Data data = new Data(dAmount, type, note, id, mDate);
                 mIncomeDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -224,7 +228,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(HomeActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
-                                System.out.println("DATA UPLOAD FIREBASE FAILED: " + e);
+                                Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
                             }
                         });;
 
@@ -265,6 +269,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 String type = edtType.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
+                Double dAmount = Double.parseDouble(amount);
                 String note = edtNote.getText().toString().trim();
 
                 if(TextUtils.isEmpty(type)){
@@ -275,14 +280,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if(TextUtils.isEmpty(amount)){
                     edtAmount.setError("Required Field...");
                     return;
-                } else if(!TextUtils.isDigitsOnly(amount)){
-                    edtAmount.setError("Amount must be a number!");
-                    return;
+                }else{
+                    try {
+                        Double num = Double.parseDouble(amount);
+                    }catch (NumberFormatException e){
+                        edtAmount.setError("Not a valid amount!");
+                    }
                 }
 
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(amount, type, note, id, mDate);
+                Data data = new Data(dAmount, type, note, id, mDate);
                 mExpenseDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -293,7 +301,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(HomeActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
-                                System.out.println("DATA UPLOAD FIREBASE FAILED: " + e);
+                                Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
                             }
                         });;
 

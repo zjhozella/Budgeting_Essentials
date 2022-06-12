@@ -45,13 +45,11 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
-
         // Update Income and Expense total amounts
         expense_total = myView.findViewById(R.id.expense_dashboard_total);
         income_total = myView.findViewById(R.id.income_dashboard_total);
-        expense_total.setText(String.valueOf(HomeActivity.expenseTotalSum));
-        income_total.setText(String.valueOf(HomeActivity.incomeTotalSum));
+        expense_total.setText("$" + HomeActivity.expenseTotalSum);
+        income_total.setText("$" + HomeActivity.incomeTotalSum);
 
         return myView;
     }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,7 +104,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
                     Data data = dataSnapshot.getValue(Data.class);
 
                     // Increment the total expense amount for each existing expense
-                    HomeActivity.expenseTotalSum += Integer.parseInt(data.getAmount());
+                    HomeActivity.expenseTotalSum += Double.parseDouble(String.valueOf(data.getAmount()));
                     String stTotal = String.valueOf(HomeActivity.expenseTotalSum);
                     expenseTotal.setText("$" + stTotal);
 
@@ -111,7 +112,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
                         if (expenseList.get(i).getId().equals(data.getId())){
                             HomeActivity.expenseTotalSum = 0;
                             for (int j  = 0; j < expenseList.size(); ++j){
-                                HomeActivity.expenseTotalSum += Integer.parseInt(expenseList.get(j).getAmount());
+                                HomeActivity.expenseTotalSum += expenseList.get(j).getAmount();
                             }
                             String stTotalx = String.valueOf(HomeActivity.expenseTotalSum);
                             expenseTotal.setText("$" + stTotalx);
@@ -135,7 +136,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
     }
 
     @Override
-    public void UpdateExpenseDataItem(String type, String note, String amount, String id) {
+    public void UpdateExpenseDataItem(String type, String note, Double amount, String id) {
         // Build the dialog
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -152,8 +153,8 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
         edtType.setSelection(type.length());
         edtNote.setText(note);
         edtNote.setSelection(note.length());
-        edtAmount.setText(amount);
-        edtAmount.setSelection(amount.length());
+        edtAmount.setText(String.valueOf(amount));
+        edtAmount.setSelection(String.valueOf(amount).length());
 
         // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
@@ -170,19 +171,32 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
                 String fType = edtType.getText().toString().trim();
                 String fNote = edtNote.getText().toString().trim();
                 String sAmount = edtAmount.getText().toString().trim();
+                Double dAmount = Double.parseDouble(sAmount);
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(sAmount, fType, fNote, id, mDate);
+                Data data = new Data(dAmount, fType, fNote, id, mDate);
+
+                if(TextUtils.isEmpty(fType)){
+                    edtType.setError("Required Field...");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(sAmount)){
+                    edtAmount.setError("Required Field...");
+                    return;
+                }else{
+                    try {
+                        Double num = Double.parseDouble(sAmount);
+                    }catch (NumberFormatException e){
+                        edtAmount.setError("Not a valid amount!");
+                        return;
+                    }
+                }
 
                 // Update selected data item to be equal to what is in the edit fields
                 mExpenseDatabase.child(id).setValue(data);
-                for (int i = 0; i < expenseList.size(); ++i){
-                    Log.w("onClick1-ArrayList", expenseList.get(i).getAmount());
-                }
+
                 expenseList.clear();
-                Log.w("List", "CLEARED");
-                for (int i = 0; i < expenseList.size(); ++i){
-                    Log.w("onClick2-ArrayList", expenseList.get(i).getAmount());
-                }
+
                 dialog.dismiss();
             }
         });

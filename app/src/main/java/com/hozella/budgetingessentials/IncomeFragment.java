@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.DoubleToLongFunction;
 
 
 public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRecycler {
@@ -34,7 +37,6 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
    // Firebase
     FirebaseAuth mAuth;
     private DatabaseReference mIncomeDatabase;
-
 
     // RV
     RecyclerView recyclerView;
@@ -110,50 +112,29 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data data = dataSnapshot.getValue(Data.class);
 
-                    Log.w("SNAPSHOT", "getChildren:" + dataSnapshot.getValue());
 
                     // Increment the total income amount for each existing income
-                    HomeActivity.incomeTotalSum += Integer.parseInt(data.getAmount());
+                    HomeActivity.incomeTotalSum += data.getAmount();
                     String stTotal = String.valueOf(HomeActivity.incomeTotalSum);
                     incomeTotal.setText("$" + stTotal);
 
                     for (int i = 0; i < incomeList.size(); ++i){
-                        Log.w("1onDataChange-ArrayList", incomeList.get(i).getAmount());
-                    }
 
-                    for (int i = 0; i < incomeList.size(); ++i){
-                        //Log.w("FOR", "IF:" + list.get(i).getId().toString() + " : " + data.getId().toString());
                         if (incomeList.get(i).getId().equals(data.getId())){
-                            Log.w("1FOR", "IF:" + incomeList.get(i).getId() + " : " + data.getId());
+
                             HomeActivity.incomeTotalSum = 0;
                             for (int j = 0; j < incomeList.size(); ++j){
-                                HomeActivity.incomeTotalSum += Integer.parseInt(incomeList.get(j).getAmount());
-                                Log.w("INCOME TOTAL:", "+:" + incomeList.get(j).getAmount() + " : " + HomeActivity.incomeTotalSum);
+                                HomeActivity.incomeTotalSum += incomeList.get(j).getAmount();
                             }
+
                             String stTotalx = String.valueOf(HomeActivity.incomeTotalSum);
                             incomeTotal.setText("$" + stTotalx);
                             return;
-                        }else
-                        {
-                            Log.w("2FOR", "IF:" + incomeList.get(i).getId() + " : " + data.getId());
-
                         }
                     }
-
                     incomeList.add(data);
-
-                    Log.w("onDataChange", data.getAmount() + " ADDED TO LIST!");
-
-                    for (int i = 0; i < incomeList.size(); ++i){
-                        Log.w("2onDataChange-ArrayList", incomeList.get(i).getAmount());
-                    }
-                    Log.w("onDataChange", "onDataChange");
                 }
-
-
-
                 incomeAdapter.notifyDataSetChanged();
-                Log.w("incomeAdapter", "Notify data set changed.");
             }
 
             @Override
@@ -167,7 +148,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
     // Part of the IIncomeRecycler interface. Called when a user taps on an item
     @Override
-    public void UpdateIncomeDataItem(String type, String note, String amount, String id) {
+    public void UpdateIncomeDataItem(String type, String note, Double amount, String id) {
         // Build the dialog
         AlertDialog.Builder myDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -184,8 +165,8 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         edtType.setSelection(type.length());
         edtNote.setText(note);
         edtNote.setSelection(note.length());
-        edtAmount.setText(amount);
-        edtAmount.setSelection(amount.length());
+        edtAmount.setText(String.valueOf(amount));
+        edtAmount.setSelection(String.valueOf(amount).length());
 
         // Connect the buttons
         btnUpdate = view.findViewById(R.id.btnUpdate);
@@ -202,19 +183,32 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
                 String fType = edtType.getText().toString().trim();
                 String fNote = edtNote.getText().toString().trim();
                 String sAmount = edtAmount.getText().toString().trim();
+                Double dAmount = Double.parseDouble(sAmount);
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(sAmount, fType, fNote, id, mDate);
+                Data data = new Data(dAmount, fType, fNote, id, mDate);
+
+                if(TextUtils.isEmpty(fType)){
+                    edtType.setError("Required Field...");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(sAmount)){
+                    edtAmount.setError("Required Field...");
+                    return;
+                }else{
+                    try {
+                        Double num = Double.parseDouble(sAmount);
+                    }catch (NumberFormatException e){
+                        edtAmount.setError("Not a valid amount!");
+                        return;
+                    }
+                }
 
                 // Update selected data item to be equal to what is in the edit fields
                 mIncomeDatabase.child(id).setValue(data);
-                for (int i = 0; i < incomeList.size(); ++i){
-                    Log.w("onClick1-ArrayList", incomeList.get(i).getAmount());
-                }
+
                 incomeList.clear();
-                Log.w("List", "CLEARED");
-                for (int i = 0; i < incomeList.size(); ++i){
-                    Log.w("onClick2-ArrayList", incomeList.get(i).getAmount());
-                }
+
                 dialog.dismiss();
 
             }

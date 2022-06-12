@@ -32,7 +32,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = IncomeFragment.incomeList.get(position);
-        holder.amount.setText(data.getAmount());
+        holder.amount.setText(String.valueOf(data.getAmount()));
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
@@ -69,7 +69,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
     }
 
     interface IIncomeRecycler{
-        void UpdateIncomeDataItem(String type, String note, String amount, String id);
+        void UpdateIncomeDataItem(String type, String note, Double amount, String id);
     }
 
 }

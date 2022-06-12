@@ -30,7 +30,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = ExpenseFragment.expenseList.get(position);
-        holder.amount.setText(data.getAmount());
+        holder.amount.setText(String.valueOf(data.getAmount()));
         holder.type.setText(data.getType());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
@@ -66,7 +66,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     }
 
     interface IExpenseRecycler{
-        void UpdateExpenseDataItem(String type, String note, String amount, String id);
+        void UpdateExpenseDataItem(String type, String note, Double amount, String id);
     }
 
 }
