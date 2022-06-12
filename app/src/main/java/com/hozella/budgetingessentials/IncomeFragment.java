@@ -80,7 +80,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
-        mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
+        mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("IncomeData");
 
         incomeTotal = view.findViewById(R.id.income_txt_total);
 

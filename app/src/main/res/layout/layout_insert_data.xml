@@ -168,7 +168,8 @@
                         android:backgroundTint="@color/expense_color"
                         android:text="Cancel"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp">
 
                     </Button>
@@ -190,7 +191,8 @@
                         android:backgroundTint="@color/income_color"
                         android:text="Save"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp">
 
                     </Button>

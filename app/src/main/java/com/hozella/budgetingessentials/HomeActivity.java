@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     // Firebase
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
     private DatabaseReference mIncomeDatabase;
     private DatabaseReference mExpenseDatabase;
 
@@ -64,8 +65,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
 
-        mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
-        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseData").child(uid);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child(uid);
+        mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("IncomeData");
+        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("ExpenseData");
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         toolbar.setTitle("Expense Manager");
@@ -194,7 +196,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 String type = edtType.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
-                Double dAmount = Double.parseDouble(amount);
                 String note = edtNote.getText().toString().trim();
 
                 if(TextUtils.isEmpty(type)){
@@ -210,10 +211,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Double num = Double.parseDouble(amount);
                     }catch (NumberFormatException e){
                         edtAmount.setError("Not a valid amount!");
+                        return;
                     }
                 }
 
-
+                Double dAmount = Double.parseDouble(amount);
 
                 String id = mIncomeDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
@@ -269,7 +271,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 String type = edtType.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
-                Double dAmount = Double.parseDouble(amount);
                 String note = edtNote.getText().toString().trim();
 
                 if(TextUtils.isEmpty(type)){
@@ -285,8 +286,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Double num = Double.parseDouble(amount);
                     }catch (NumberFormatException e){
                         edtAmount.setError("Not a valid amount!");
+                        return;
                     }
                 }
+
+                Double dAmount = Double.parseDouble(amount);
 
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());

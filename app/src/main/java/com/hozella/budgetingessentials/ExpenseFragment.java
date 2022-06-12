@@ -76,7 +76,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
-        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseData").child(uid);
+        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("ExpenseData");
 
         expenseTotal = view.findViewById(R.id.expense_txt_total);
 

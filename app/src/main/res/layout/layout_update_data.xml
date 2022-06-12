@@ -155,7 +155,7 @@
                 android:baselineAligned="false">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_margin="10dp"
@@ -165,11 +165,12 @@
                         android:id="@+id/btnDelete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:backgroundTint="@color/expense_color"
                         android:text="Delete"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:textSize="16sp">
+                        android:textColor="@color/black"
+                        android:textStyle="bold">
 
                     </Button>
 
@@ -177,7 +178,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_margin="10dp"
@@ -187,11 +188,12 @@
                         android:id="@+id/btnCancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:backgroundTint="@color/neutral"
                         android:text="Cancel"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:textSize="16sp">
+                        android:textColor="@color/black"
+                        android:textStyle="bold">
 
                     </Button>
 
@@ -199,7 +201,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:layout_width="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_margin="10dp"
@@ -209,11 +211,12 @@
                         android:id="@+id/btnUpdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:backgroundTint="@color/income_color"
                         android:text="Update"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/white"
-                        android:textSize="16sp">
+                        android:textColor="@color/black"
+                        android:textStyle="bold">
 
                     </Button>
 
