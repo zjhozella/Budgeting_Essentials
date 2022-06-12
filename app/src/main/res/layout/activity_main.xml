@@ -10,6 +10,7 @@
     tools:context=".MainActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,11 +40,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="email@website.com"
-                android:textColor="@color/black"
                 android:background="@drawable/edittext_background"
+                android:hint="email@website.com"
+                android:minHeight="48dp"
                 android:padding="15dp"
-                android:minHeight="48dp">
+                android:textColor="@color/black">
 
             </EditText>
 
@@ -52,11 +53,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="Password"
-                android:textColor="@color/black"
                 android:background="@drawable/edittext_background"
+                android:hint="Password"
+                android:minHeight="48dp"
                 android:padding="15dp"
-                android:minHeight="48dp">
+                android:textColor="@color/black">
 
             </EditText>
 
@@ -71,24 +72,24 @@
             </Button>
 
             <TextView
+                android:id="@+id/forgot_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/forgot_password"
+                android:padding="5dp"
                 android:text="Forgot Password"
-                android:textColor="@color/black"
-                android:padding="5dp">
+                android:textColor="@color/black">
 
             </TextView>
 
             <TextView
+                android:id="@+id/signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/signup"
+                android:padding="5dp"
                 android:text="Don't have an account? Sign up!"
-                android:textColor="@color/black"
-                android:padding="5dp">
+                android:textColor="@color/black">
 
             </TextView>
 
