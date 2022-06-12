@@ -9,17 +9,39 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
-
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Firebase
+    private FirebaseAuth mAuth;
+    private DatabaseReference mIncomeDatabase;
+    private DatabaseReference mExpenseDatabase;
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
@@ -37,6 +59,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        String uid = mUser.getUid();
+
+        mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
+        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseData").child(uid);
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         toolbar.setTitle("Expense Manager");
@@ -69,18 +98,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 switch (item.getItemId()){
                     case R.id.dashboard:
                         setFragment(dashboardFragment);
-                        DashboardFragment.isOpen = false;
-                        //bottomNavigationView.setItemBackgroundResource(R.color.dashboard_color);
+
+
                         return true;
                     case R.id.income:
                         setFragment(incomeFragment);
-                        DashboardFragment.isOpen = false;
-                        //bottomNavigationView.setItemBackgroundResource(R.color.income_color);
+
+
                         return true;
                     case R.id.expense:
                         setFragment(expenseFragment);
-                        DashboardFragment.isOpen = false;
-                        //bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
+
+
                         return true;
                     default:
                         return false;
@@ -112,23 +141,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
         switch (itemId){
-            case R.id.nav_dashboard:
-                setFragment(dashboardFragment);
-                DashboardFragment.isOpen = false;
-                break;
-
             case R.id.nav_income:
-                setFragment(incomeFragment);
-                DashboardFragment.isOpen = false;
+                incomeDataInsert();
                 break;
 
             case R.id.nav_expense:
-                setFragment(expenseFragment);
-                DashboardFragment.isOpen = false;
+                expenseDataInsert();
                 break;
 
             case R.id.nav_logout:
-
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
         }
 
@@ -147,5 +170,151 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedListener(item.getItemId());
 
         return true;
+    }
+
+    public void incomeDataInsert(){
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View myView = inflater.inflate(R.layout.layout_insert_data, null);
+        myDialog.setView(myView);
+        AlertDialog dialog = myDialog.create();
+        dialog.setCancelable(false);
+
+        EditText edtAmount = myView.findViewById(R.id.amount_edt);
+        EditText edtType = myView.findViewById(R.id.type_edt);
+        EditText edtNote = myView.findViewById(R.id.note_edt);
+
+        Button btnSave = myView.findViewById(R.id.btnSave);
+        Button btnCancel = myView.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String type = edtType.getText().toString().trim();
+                String amount = edtAmount.getText().toString().trim();
+                String note = edtNote.getText().toString().trim();
+
+                if(TextUtils.isEmpty(type)){
+                    edtType.setError("Required Field...");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(amount)){
+                    edtAmount.setError("Required Field...");
+                    return;
+                } else if(!TextUtils.isDigitsOnly(amount)){
+                    edtAmount.setError("Amount must be a number!");
+                    return;
+                }
+
+
+
+                String id = mIncomeDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(amount, type, note, id, mDate);
+                mIncomeDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(HomeActivity.this, "Data Upload Successful", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(HomeActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
+                                System.out.println("DATA UPLOAD FIREBASE FAILED: " + e);
+                            }
+                        });;
+
+
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void expenseDataInsert(){
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View myView = inflater.inflate(R.layout.layout_insert_data, null);
+        myDialog.setView(myView);
+        AlertDialog dialog = myDialog.create();
+        dialog.setCancelable(false);
+
+        EditText edtAmount = myView.findViewById(R.id.amount_edt);
+        EditText edtType = myView.findViewById(R.id.type_edt);
+        EditText edtNote = myView.findViewById(R.id.note_edt);
+
+        Button btnSave = myView.findViewById(R.id.btnSave);
+        Button btnCancel = myView.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String type = edtType.getText().toString().trim();
+                String amount = edtAmount.getText().toString().trim();
+                String note = edtNote.getText().toString().trim();
+
+                if(TextUtils.isEmpty(type)){
+                    edtType.setError("Required Field...");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(amount)){
+                    edtAmount.setError("Required Field...");
+                    return;
+                } else if(!TextUtils.isDigitsOnly(amount)){
+                    edtAmount.setError("Amount must be a number!");
+                    return;
+                }
+
+
+
+
+
+
+
+                String id = mExpenseDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(amount, type, note, id, mDate);
+                mExpenseDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(HomeActivity.this, "Data Upload Successful", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(HomeActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
+                                System.out.println("DATA UPLOAD FIREBASE FAILED: " + e);
+                            }
+                        });;
+
+
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
