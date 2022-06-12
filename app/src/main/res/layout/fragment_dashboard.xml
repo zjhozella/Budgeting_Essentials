@@ -21,7 +21,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -63,7 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -107,107 +109,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="160dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add New Expense"
-                android:id="@+id/expense_ft_text"
-                android:textColor="@color/white"
-                android:padding="5dp"
-                android:background="@color/expense_color"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:visibility="invisible"
-                android:textAppearance="?android:textAppearanceSmall">
-
-            </TextView>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/expense_ft_btn"
-                android:layout_gravity="bottom|end"
-                android:backgroundTint="@color/expense_color"
-                android:elevation="6dp"
-                app:fabSize="mini"
-                app:pressedTranslationZ="12dp"
-                android:visibility="invisible"
-                android:src="@drawable/ic_expense">
-
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="90dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add New Income"
-                android:id="@+id/income_ft_text"
-                android:textColor="@color/white"
-                android:padding="5dp"
-                android:background="@color/income_color"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:visibility="invisible"
-                android:textAppearance="?android:textAppearanceSmall">
-
-            </TextView>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/income_ft_btn"
-                android:layout_gravity="bottom|end"
-                android:backgroundTint="@color/income_color"
-                android:elevation="6dp"
-                app:fabSize="mini"
-                app:pressedTranslationZ="12dp"
-                android:visibility="invisible"
-                android:src="@drawable/ic_income">
-
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-        </LinearLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fb_main_btn"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="@color/light_secondary"
-            app:fabSize="normal"
-            android:src="@drawable/ic_add">
-
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

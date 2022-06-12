@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/nav_dashboard"
-        android:title="Dashboard"
-        android:icon="@drawable/ic_dashboard"/>
-
     <item android:id="@+id/nav_income"
-        android:title="Income"
+        android:title="Add Income"
         android:icon="@drawable/ic_income"/>
 
     <item android:id="@+id/nav_expense"
-        android:title="Expense"
+        android:title="Add Expense"
         android:icon="@drawable/ic_expense"/>
 
     <item android:id="@+id/nav_logout"
