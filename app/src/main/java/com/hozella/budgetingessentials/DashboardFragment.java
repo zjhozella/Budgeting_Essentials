@@ -98,7 +98,6 @@ public class DashboardFragment extends Fragment {
                     {
                         expense_total.setText("$" + eTotal);
                     }
-
                 }
 
                 @Override

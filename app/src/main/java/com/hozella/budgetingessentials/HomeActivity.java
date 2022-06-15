@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mUserDatabase;
     private DatabaseReference mIncomeDatabase;
     private DatabaseReference mExpenseDatabase;
+    private Button btnLogout;
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
@@ -118,6 +119,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        btnLogout = this.findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
     }
 
     private void setFragment(Fragment fragment) {
@@ -149,11 +159,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_expense:
                 expenseDataInsert();
-                break;
-
-            case R.id.nav_logout:
-                mAuth.signOut();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
         }
 

@@ -43,18 +43,26 @@
 
             </EditText>
 
-            <EditText
-                android:id="@+id/password_reg"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Password"
-                android:textColor="@color/black"
-                android:background="@drawable/edittext_background"
-                android:padding="15dp"
-                android:minHeight="48dp">
+                app:passwordToggleEnabled="true">
 
-            </EditText>
+                <EditText
+                    android:id="@+id/password_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:padding="15dp"
+                    android:textColor="@color/black">
+
+                </EditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_reg"

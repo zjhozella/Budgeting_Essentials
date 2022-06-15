@@ -37,7 +37,7 @@
             <Button
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/nav_logout"
+                android:id="@+id/btn_logout"
                 android:gravity="start|center"
                 android:text="Logout"
                 android:drawableLeft="@drawable/ic_logout"
