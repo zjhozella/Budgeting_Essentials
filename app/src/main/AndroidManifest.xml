@@ -14,6 +14,9 @@
         android:theme="@style/Theme.BudgetingEssentials"
         tools:targetApi="32">
         <activity
+            android:name=".InsertDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity

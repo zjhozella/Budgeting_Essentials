@@ -31,6 +31,54 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Date:">
+
+
+                    </TextView>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/date_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00/00/0000"
+                        android:drawableRight="@drawable/ic_logout"
+                        android:drawableTint="@color/black"
+                        android:backgroundTint="@color/white"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                    </Button>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Amount:">
 
 

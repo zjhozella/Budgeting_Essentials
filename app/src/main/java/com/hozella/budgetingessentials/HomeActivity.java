@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -34,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,10 +57,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DashboardFragment dashboardFragment;
     private IncomeFragment incomeFragment;
     private ExpenseFragment expenseFragment;
+    private InsertDataFragment insertDataFragment;
+
 
     // Global Total Expense and Income
     public static double expenseTotalSum = 0.0;
     public static double incomeTotalSum = 0.0;
+
+    // Insert Date Dialog
+    private DatePickerDialog datePickerDialog;
+    EditText edtDate;
+    EditText edtAmount;
+    EditText edtType;
+    EditText edtNote;
+
+    Button btnSave;
+    Button btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         if (drawerLayout.isDrawerOpen(GravityCompat.END)){
-            drawerLayout.closeDrawer(GravityCompat.END);
+            drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             super.onBackPressed();
         }
@@ -154,7 +171,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         switch (itemId){
             case R.id.nav_income:
-                incomeDataInsert();
+                //incomeDataInsert();
+                insertDataFragment = new InsertDataFragment();
+                setFragment(insertDataFragment);
                 break;
 
             case R.id.nav_expense:
@@ -189,12 +208,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog dialog = myDialog.create();
         dialog.setCancelable(false);
 
-        EditText edtAmount = myView.findViewById(R.id.amount_edt);
-        EditText edtType = myView.findViewById(R.id.type_edt);
-        EditText edtNote = myView.findViewById(R.id.note_edt);
+        edtDate = myView.findViewById(R.id.date_edt);
+        edtDate.setText(getTodaysDate());
+        edtAmount = myView.findViewById(R.id.amount_edt);
+        edtType = myView.findViewById(R.id.type_edt);
+        edtNote = myView.findViewById(R.id.note_edt);
 
-        Button btnSave = myView.findViewById(R.id.btnSave);
-        Button btnCancel = myView.findViewById(R.id.btnCancel);
+        btnSave = myView.findViewById(R.id.btnSave);
+        btnCancel = myView.findViewById(R.id.btnCancel);
+
+        initDatePicker();
+        datePickerDialog.show();
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +227,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String type = edtType.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
                 String note = edtNote.getText().toString().trim();
+
 
                 if(TextUtils.isEmpty(type)){
                     edtType.setError("Required Field...");
@@ -265,12 +291,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog dialog = myDialog.create();
         dialog.setCancelable(false);
 
-        EditText edtAmount = myView.findViewById(R.id.amount_edt);
-        EditText edtType = myView.findViewById(R.id.type_edt);
-        EditText edtNote = myView.findViewById(R.id.note_edt);
+        edtAmount = myView.findViewById(R.id.amount_edt);
+        edtType = myView.findViewById(R.id.type_edt);
+        edtNote = myView.findViewById(R.id.note_edt);
 
-        Button btnSave = myView.findViewById(R.id.btnSave);
-        Button btnCancel = myView.findViewById(R.id.btnCancel);
+        btnSave = myView.findViewById(R.id.btnSave);
+        btnCancel = myView.findViewById(R.id.btnCancel);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,5 +356,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
         dialog.show();
+    }
+
+    private void initDatePicker(){
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month += 1;
+                String date = makeDateString(day, month, year);
+                edtDate.setText(date);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int style = AlertDialog.THEME_HOLO_DARK;
+
+        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+    }
+
+    private String makeDateString(int day, int month, int year){
+        return month + "/" + day + "/" + year;
+    }
+
+    private String getTodaysDate(){
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month += 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return makeDateString(day, month, year);
     }
 }
