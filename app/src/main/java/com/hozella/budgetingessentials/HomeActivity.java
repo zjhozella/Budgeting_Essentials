@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
@@ -79,36 +80,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Setup Firebase connection and get User ID
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
 
+        // Setup Firebase database connections
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child(uid);
         mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("IncomeData");
         mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child(uid).child("ExpenseData");
 
-        Toolbar toolbar = findViewById(R.id.app_toolbar);
-        toolbar.setTitle("Budgeting Essentials");
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        );
-
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
+        // Sets up bottom navigation view
         NavigationView navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
-
         bottomNavigationView = findViewById(R.id.bottomNavBar);
         frameLayout = findViewById(R.id.main_frame);
 
+        // Initializes all fragments
         dashboardFragment = new DashboardFragment();
         incomeFragment = new IncomeFragment();
         expenseFragment = new ExpenseFragment();
 
+        // Set toolbar title and fragment (Dashboard opens by default)
+        setCustomDrawerToolbar("Dashboard");
         setFragment(dashboardFragment);
 
         // Controls where each navigation button takes you
@@ -119,16 +113,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.dashboard:
                         setFragment(dashboardFragment);
 
-
                         return true;
                     case R.id.income:
                         setFragment(incomeFragment);
 
-
                         return true;
                     case R.id.expense:
                         setFragment(expenseFragment);
-
 
                         return true;
                     default:
@@ -147,12 +138,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void setCustomDrawerToolbar(String title){
+        Toolbar toolbar = findViewById(R.id.app_toolbar);
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                HomeActivity.this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void setCustomInsertDataToolbar(String title){
+        Toolbar toolbar = findViewById(R.id.app_toolbar); // TODO app_insert_toolbar NULL? WHY?
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+    }
+
     private void setFragment(Fragment fragment) {
+
+        // Update the title of the toolbar depending on the fragment
+        if (fragment == dashboardFragment)
+            setCustomDrawerToolbar("Dashboard");
+        else if (fragment == incomeFragment)
+            setCustomDrawerToolbar("Your Income");
+         else if (fragment == expenseFragment)
+            setCustomDrawerToolbar("Your Expenses");
+         else if (fragment == insertDataFragment)
+             setCustomInsertDataToolbar("TEST");
+        else
+            setCustomDrawerToolbar("Budgeting Essentials");
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
-
     }
 
     @Override
@@ -160,7 +182,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         if (drawerLayout.isDrawerOpen(GravityCompat.END)){
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.END);
         }else {
             super.onBackPressed();
         }
