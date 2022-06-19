@@ -7,14 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -58,7 +55,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DashboardFragment dashboardFragment;
     private IncomeFragment incomeFragment;
     private ExpenseFragment expenseFragment;
-    private InsertDataFragment insertDataFragment;
 
 
     // Global Total Expense and Income
@@ -152,12 +148,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    private void setCustomInsertDataToolbar(String title){
-        Toolbar toolbar = findViewById(R.id.app_toolbar); // TODO app_insert_toolbar NULL? WHY?
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
-    }
-
     private void setFragment(Fragment fragment) {
 
         // Update the title of the toolbar depending on the fragment
@@ -167,8 +157,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             setCustomDrawerToolbar("Your Income");
          else if (fragment == expenseFragment)
             setCustomDrawerToolbar("Your Expenses");
-         else if (fragment == insertDataFragment)
-             setCustomInsertDataToolbar("TEST");
         else
             setCustomDrawerToolbar("Budgeting Essentials");
 
@@ -194,8 +182,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (itemId){
             case R.id.nav_income:
                 //incomeDataInsert();
-                insertDataFragment = new InsertDataFragment();
-                setFragment(insertDataFragment);
+                startActivity(new Intent(getApplicationContext(), InsertDataActivity.class));
                 break;
 
             case R.id.nav_expense:
@@ -225,7 +212,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View myView = inflater.inflate(R.layout.layout_insert_data, null);
+        View myView = inflater.inflate(R.layout.layout_insert_data_help_dialog, null);
         myDialog.setView(myView);
         AlertDialog dialog = myDialog.create();
         dialog.setCancelable(false);
@@ -308,7 +295,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View myView = inflater.inflate(R.layout.layout_insert_data, null);
+        View myView = inflater.inflate(R.layout.layout_insert_data_help_dialog, null);
         myDialog.setView(myView);
         AlertDialog dialog = myDialog.create();
         dialog.setCancelable(false);
