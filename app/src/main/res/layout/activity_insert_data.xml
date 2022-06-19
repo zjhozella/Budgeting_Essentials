@@ -38,6 +38,54 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Type:">
+
+
+                    </TextView>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_margin="10dp">
+
+                    <Spinner
+                        android:id="@+id/type_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:drawableRight="@drawable/ic_logout"
+                        android:drawableTint="@color/black"
+                        android:text="00/00/0000"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                    </Spinner>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Date:">
 
 
@@ -56,10 +104,10 @@
                         android:id="@+id/date_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="00/00/0000"
+                        android:backgroundTint="@color/white"
                         android:drawableRight="@drawable/ic_logout"
                         android:drawableTint="@color/black"
-                        android:backgroundTint="@color/white"
+                        android:text="00/00/0000"
                         tools:ignore="TouchTargetSizeCheck">
 
                     </Button>
@@ -191,9 +239,9 @@
                     android:layout_margin="10dp">
 
                     <EditText
+                        android:id="@+id/note_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/note_edt"
                         android:hint="Paid on the first of every month">
 
                     </EditText>
