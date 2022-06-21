@@ -8,17 +8,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,7 +33,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class InsertDataActivity extends AppCompatActivity {
+public class InsertDataActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -46,6 +47,8 @@ public class InsertDataActivity extends AppCompatActivity {
     EditText edtAmount;
     EditText edtType;
     EditText edtNote;
+    String type;
+    String[] types = {"Income", "Expense"};
 
     Button btnSave;
     Button btnCancel;
@@ -72,13 +75,42 @@ public class InsertDataActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        // Setup form fields
+        fieldSetup();
+
 
     }
 
     public void dataInsert(){
 
-        // TODO SPINNER FUNCTIONALITY
 
+
+
+
+
+
+
+        if (true == true){ // Spinner == Income
+
+        }else{ // Spinner == Expense
+
+        }
+
+
+
+
+
+
+    }
+
+    private void fieldSetup(){
+        Spinner spinner = (Spinner) findViewById(R.id.type_spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, types);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        Log.w("SPINNER:", type + "");
         edtDate = findViewById(R.id.date_edt);
         edtDate.setText(getTodaysDate());
         edtAmount = findViewById(R.id.amount_edt);
@@ -88,69 +120,70 @@ public class InsertDataActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
 
+        btnSave.setOnClickListener(saveListener);
+        btnCancel.setOnClickListener(cancelListener);
+
         initDatePicker();
-        datePickerDialog.show();
-
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String type = edtType.getText().toString().trim();
-                String amount = edtAmount.getText().toString().trim();
-                String note = edtNote.getText().toString().trim();
-
-
-                if(TextUtils.isEmpty(type)){
-                    edtType.setError("Required Field...");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(amount)){
-                    edtAmount.setError("Required Field...");
-                    return;
-                }else{
-                    try {
-                        Double num = Double.parseDouble(amount);
-                    }catch (NumberFormatException e){
-                        edtAmount.setError("Not a valid amount!");
-                        return;
-                    }
-                }
-
-                Double dAmount = Double.parseDouble(amount);
-
-                String id = mIncomeDatabase.push().getKey();
-                String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(dAmount, type, note, id, mDate);
-                mIncomeDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(InsertDataActivity.this, "Data Upload Successful", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(InsertDataActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
-                                Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
-                            }
-                        });
-                HomeActivity.incomeTotalSum += dAmount;
-                mUserDatabase.child("IncomeTotal").setValue(HomeActivity.incomeTotalSum);
-
-                // TODO RETURN TO HOME ACTIVITY
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO RETURN TO HOME ACTIVITY
-            }
-        });
-
-
+        //datePickerDialog.show();
     }
+
+    private View.OnClickListener saveListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String type = edtType.getText().toString().trim();
+            String amount = edtAmount.getText().toString().trim();
+            String note = edtNote.getText().toString().trim();
+
+
+            if(TextUtils.isEmpty(type)){
+                edtType.setError("Required Field...");
+                return;
+            }
+
+            if(TextUtils.isEmpty(amount)){
+                edtAmount.setError("Required Field...");
+                return;
+            }else{
+                try {
+                    Double num = Double.parseDouble(amount);
+                }catch (NumberFormatException e){
+                    edtAmount.setError("Not a valid amount!");
+                    return;
+                }
+            }
+
+            Double dAmount = Double.parseDouble(amount);
+
+            String id = mIncomeDatabase.push().getKey();
+            String mDate = DateFormat.getDateInstance().format(new Date());
+            Data data = new Data(dAmount, type, note, id, mDate);
+            mIncomeDatabase.child(id).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(InsertDataActivity.this, "Data Upload Successful", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(InsertDataActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
+                            Log.e("DATA UPLOAD FIREBASE", "FAILED. " + e);
+                        }
+                    });
+            HomeActivity.incomeTotalSum += dAmount;
+            mUserDatabase.child("IncomeTotal").setValue(HomeActivity.incomeTotalSum);
+
+            // TODO RETURN TO HOME ACTIVITY
+        }
+    };
+
+    private View.OnClickListener cancelListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // TODO RETURN TO HOME ACTIVITY
+        }
+    };
+
 
     // Create the overflow menu in the toolbar
     @Override
@@ -222,5 +255,16 @@ public class InsertDataActivity extends AppCompatActivity {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         return makeDateString(day, month, year);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        type = types[position];
+        Toast.makeText(getApplicationContext(), type, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

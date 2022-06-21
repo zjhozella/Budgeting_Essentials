@@ -55,12 +55,7 @@
                     <Spinner
                         android:id="@+id/type_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/white"
-                        android:drawableRight="@drawable/ic_logout"
-                        android:drawableTint="@color/black"
-                        android:text="00/00/0000"
-                        tools:ignore="TouchTargetSizeCheck">
+                        android:layout_height="wrap_content">
 
                     </Spinner>
 
