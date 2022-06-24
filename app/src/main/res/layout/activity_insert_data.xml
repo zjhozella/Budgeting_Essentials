@@ -69,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/date_layout">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -117,7 +118,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/amount_layout">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -162,7 +164,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/title_layout">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -174,7 +177,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Type:">
+                        android:text="Title:">
 
 
                     </TextView>
@@ -189,7 +192,7 @@
                     android:layout_margin="10dp">
 
                     <EditText
-                        android:id="@+id/type_edt"
+                        android:id="@+id/title_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Expense"
@@ -207,7 +210,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/note_layout">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -250,7 +254,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:id="@+id/insert_buttons_layout">
 
                 <RelativeLayout
                     android:layout_width="0dp"

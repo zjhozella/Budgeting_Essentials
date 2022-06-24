@@ -3,7 +3,7 @@ package com.hozella.budgetingessentials;
 public class Data {
 
     private Double amount;
-    private String type;
+    private String title;
     private String note;
     private String id;
     private String date;
@@ -12,9 +12,9 @@ public class Data {
 
     }
 
-    public Data(Double amount, String type, String note, String id, String date) {
+    public Data(Double amount, String title, String note, String id, String date) {
         this.amount = amount;
-        this.type = type;
+        this.title = title;
         this.note = note;
         this.id = id;
         this.date = date;
@@ -28,12 +28,12 @@ public class Data {
         this.amount = amount;
     }
 
-    public String getType() {
-        return type;
+    public String getTitle() {
+        return title;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getNote() {

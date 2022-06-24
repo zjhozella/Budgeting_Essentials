@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DatePickerDialog datePickerDialog;
     EditText edtDate;
     EditText edtAmount;
-    EditText edtType;
+    EditText edtTitle;
     EditText edtNote;
 
     Button btnSave;
@@ -220,7 +220,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         edtDate = myView.findViewById(R.id.date_edt);
         edtDate.setText(getTodaysDate());
         edtAmount = myView.findViewById(R.id.amount_edt);
-        edtType = myView.findViewById(R.id.type_edt);
+        edtTitle = myView.findViewById(R.id.title_edt);
         edtNote = myView.findViewById(R.id.note_edt);
 
         btnSave = myView.findViewById(R.id.btnSave);
@@ -233,13 +233,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String type = edtType.getText().toString().trim();
+                String type = edtTitle.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
                 String note = edtNote.getText().toString().trim();
 
 
                 if(TextUtils.isEmpty(type)){
-                    edtType.setError("Required Field...");
+                    edtTitle.setError("Required Field...");
                     return;
                 }
 
@@ -301,7 +301,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         dialog.setCancelable(false);
 
         edtAmount = myView.findViewById(R.id.amount_edt);
-        edtType = myView.findViewById(R.id.type_edt);
+        edtTitle = myView.findViewById(R.id.title_edt);
         edtNote = myView.findViewById(R.id.note_edt);
 
         btnSave = myView.findViewById(R.id.btnSave);
@@ -310,12 +310,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String type = edtType.getText().toString().trim();
+                String type = edtTitle.getText().toString().trim();
                 String amount = edtAmount.getText().toString().trim();
                 String note = edtNote.getText().toString().trim();
 
                 if(TextUtils.isEmpty(type)){
-                    edtType.setError("Required Field...");
+                    edtTitle.setError("Required Field...");
                     return;
                 }
 

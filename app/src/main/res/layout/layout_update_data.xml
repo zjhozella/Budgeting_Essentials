@@ -76,7 +76,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Type:">
+                        android:text="Title:">
 
 
                     </TextView>
@@ -91,7 +91,7 @@
                     android:layout_margin="10dp">
 
                     <EditText
-                        android:id="@+id/type_edt_u"
+                        android:id="@+id/title_edt_u"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Expense"

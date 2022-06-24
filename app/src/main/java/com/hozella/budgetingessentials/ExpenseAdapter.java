@@ -31,7 +31,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Data data = ExpenseFragment.expenseList.get(position);
         holder.amount.setText(String.valueOf(data.getAmount()));
-        holder.type.setText(data.getType());
+        holder.type.setText(data.getTitle());
         holder.note.setText(data.getNote());
         holder.date.setText(data.getDate());
 
@@ -39,8 +39,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getAdapterPosition() + " " + data.getType());
-                expenseListener.UpdateExpenseDataItem(data.getType(), data.getNote(), data.getAmount(), data.getId());
+                System.out.println("ON BIND CLICK LISTENER AT: " + holder.getAdapterPosition() + " " + data.getTitle());
+                expenseListener.UpdateExpenseDataItem(data.getTitle(), data.getNote(), data.getAmount(), data.getId());
             }
         });
     }
@@ -58,7 +58,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
             super(itemView);
 
             amount = itemView.findViewById(R.id.amount_txt_expense);
-            type = itemView.findViewById(R.id.type_txt_expense);
+            type = itemView.findViewById(R.id.title_txt_expense);
             note = itemView.findViewById(R.id.note_txt_expense);
             date = itemView.findViewById(R.id.date_txt_expense);
 

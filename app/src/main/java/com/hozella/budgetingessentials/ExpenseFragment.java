@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,7 +144,7 @@ public class ExpenseFragment extends Fragment implements ExpenseAdapter.IExpense
 
         // Connect the edit fields
         edtAmount = view.findViewById(R.id.amount_edt_u);
-        edtType = view.findViewById(R.id.type_edt_u);
+        edtType = view.findViewById(R.id.title_edt_u);
         edtNote = view.findViewById(R.id.note_edt_u);
 
         // Show the selected item's data in the edit fields

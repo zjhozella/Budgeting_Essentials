@@ -26,10 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.function.DoubleToLongFunction;
 
 
 public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRecycler {
@@ -157,7 +155,7 @@ public class IncomeFragment extends Fragment implements IncomeAdapter.IIncomeRec
 
         // Connect the edit fields
         edtAmount = view.findViewById(R.id.amount_edt_u);
-        edtType = view.findViewById(R.id.type_edt_u);
+        edtType = view.findViewById(R.id.title_edt_u);
         edtNote = view.findViewById(R.id.note_edt_u);
 
         // Show the selected item's data in the edit fields

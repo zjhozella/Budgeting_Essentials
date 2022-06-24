@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,17 +43,26 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
     private DatabaseReference mIncomeDatabase;
     private DatabaseReference mExpenseDatabase;
 
-    // Insert Date Dialog
+
     private DatePickerDialog datePickerDialog;
     Button edtDate;
     EditText edtAmount;
-    EditText edtType;
+    EditText edtTitle;
     EditText edtNote;
     String type;
-    String[] types = {"Income", "Expense"};
+    String[] types = {"Select a type...", "Income", "Expense"};
+
+    LinearLayout dateLayout;
+    LinearLayout amountLayout;
+    LinearLayout titleLayout;
+    LinearLayout noteLayout;
+    LinearLayout buttonLayout;
+    ArrayList<LinearLayout> layoutList;
 
     Button btnSave;
     Button btnCancel;
+
+    private int shortAnimationDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +86,8 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        shortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
         // Setup form fields
         fieldSetup();
 
@@ -84,17 +97,6 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
     public void dataInsert(){
 
 
-
-
-
-
-
-
-        if (true == true){ // Spinner == Income
-
-        }else{ // Spinner == Expense
-
-        }
 
 
 
@@ -114,7 +116,7 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
         edtDate = findViewById(R.id.date_edt);
         edtDate.setText(getTodaysDate());
         edtAmount = findViewById(R.id.amount_edt);
-        edtType = findViewById(R.id.type_edt);
+        edtTitle = findViewById(R.id.title_edt);
         edtNote = findViewById(R.id.note_edt);
 
         btnSave = findViewById(R.id.btnSave);
@@ -125,18 +127,35 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
 
         initDatePicker();
         //datePickerDialog.show();
+
+        dateLayout = findViewById(R.id.date_layout);
+        amountLayout = findViewById(R.id.amount_layout);
+        titleLayout = findViewById(R.id.title_layout);
+        noteLayout = findViewById(R.id.note_layout);
+        buttonLayout = findViewById(R.id.insert_buttons_layout);
+
+        layoutList = new ArrayList<>();
+
+        layoutList.add(dateLayout);
+        layoutList.add(amountLayout);
+        layoutList.add(titleLayout);
+        layoutList.add(noteLayout);
+        layoutList.add(buttonLayout);
+
+        animateItems(0);
+
     }
 
     private View.OnClickListener saveListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String type = edtType.getText().toString().trim();
+            String type = edtTitle.getText().toString().trim();
             String amount = edtAmount.getText().toString().trim();
             String note = edtNote.getText().toString().trim();
 
 
             if(TextUtils.isEmpty(type)){
-                edtType.setError("Required Field...");
+                edtTitle.setError("Required Field...");
                 return;
             }
 
@@ -259,12 +278,67 @@ public class InsertDataActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        type = types[position];
-        Toast.makeText(getApplicationContext(), type, Toast.LENGTH_LONG).show();
+        //type = types[position];
+        //Toast.makeText(getApplicationContext(), type, Toast.LENGTH_LONG).show();
+
+        if (position == 0){
+            animateItems(0);
+        }else if (position == 1){ // Income
+            animateItems(1);
+            fieldHintController(0);
+        }else{ // Expense
+            animateItems(1);
+            fieldHintController(1);
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    // Allows control over what state of animation the layout items are in
+    private void animateItems(int state){
+
+        switch (state){
+            case 0:
+                for (LinearLayout l : layoutList){
+                    l.setAlpha(0f);
+                }
+                break;
+            case 1:
+                for (LinearLayout l : layoutList){
+                    l.animate().alpha(1f).setDuration(shortAnimationDuration).setListener(null);
+                }
+            default:
+                for (LinearLayout l : layoutList){
+                    l.setAlpha(0f);
+                }
+        }
+    }
+
+    // Controls dynamic field hint text
+    private void fieldHintController(int state){
+
+        switch (state){
+            case 0:
+                edtAmount.setHint("500.00");
+                edtTitle.setHint("Paycheck");
+                edtNote.setHint("Received every Thursday via Direct Deposit");
+                break;
+            case 1:
+                edtAmount.setHint("105.32");
+                edtTitle.setHint("Electric Bill");
+                edtNote.setHint("Paid on the first of every month");
+                break;
+            default:
+                edtAmount.setHint("999.99");
+                edtTitle.setHint("Error");
+                edtNote.setHint("If you see this, contact Zakk...");
+
+
+        }
+
 
     }
 }
